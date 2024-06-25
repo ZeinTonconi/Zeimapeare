@@ -1,0 +1,9 @@
+grammar zeimapeare.Zeimapeare with org.eclipse.xtext.common.Terminals
+
+generate zeimapeare "http://www.Zeimapeare.zeimapeare"
+
+Model:
+	greetings+=Greeting*;
+	
+Greeting:
+	'Hello' name=ID '!';
