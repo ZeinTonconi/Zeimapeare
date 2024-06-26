@@ -3,6 +3,17 @@
  */
 package zeimapeare.validation;
 
+import java.util.List;
+
+import org.eclipse.xtext.validation.Check;
+
+import zeimapeare.zeimapeare.Act;
+import zeimapeare.zeimapeare.ActorDeclaration;
+import zeimapeare.zeimapeare.ActorParameter;
+import zeimapeare.zeimapeare.Program;
+import zeimapeare.zeimapeare.Prologue;
+import zeimapeare.zeimapeare.Scene;
+import zeimapeare.zeimapeare.ZeimapearePackage;
 
 /**
  * This class contains custom validation rules. 
@@ -21,5 +32,8 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 //					INVALID_NAME);
 //		}
 //	}
-	
+	@Check
+	public void checkActorEnterToScene(Scene s) {
+		
+	}
 }

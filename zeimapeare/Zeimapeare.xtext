@@ -2,8 +2,76 @@ grammar zeimapeare.Zeimapeare with org.eclipse.xtext.common.Terminals
 
 generate zeimapeare "http://www.Zeimapeare.zeimapeare"
 
-Model:
-	greetings+=Greeting*;
+Program:
+	title= TitleOfScript
 	
-Greeting:
-	'Hello' name=ID '!';
+	prologue= Prologue
+	
+	(acts+=Act)+
+;
+
+TitleOfScript:
+	name=ID
+;
+
+Prologue:
+	'PROLOGUE'
+	'Wordsmith: Welcome to the theater, lets give an aplause to our cast:' 
+	(actor += ActorDeclaration',')*
+	actor += ActorDeclaration'.'
+	initials+=InitialAssigment*
+	
+;
+
+ActorDeclaration: 
+	name=ID 'is a member of ' (type = 'Capulet' | 'Montague' | 'Slave') 'family'
+;
+
+InitialAssigment:
+	actor=[ActorDeclaration] ': I am ' expression = Expression
+;
+
+Assigment:
+	actor=[ActorDeclaration] ': ' ('I am ' | 'She is ' | 'He is ' | 'You are ')  expression = Expression
+;
+
+Expression:
+	(('the love ' | 'the hostility ' | 'the abundance ') 'of ' exp1=Expression ' and ' exp2=Expression
+		| number=Number
+		| actor=[ActorDeclaration]
+	)
+;
+
+Number:
+	number=INT | romanNumber=RomanNumber
+;
+
+RomanNumber:
+    ('I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII' | 'IX' | 'X');
+
+Act:
+	'ACT' romanNumber=RomanNumber
+	(scene+=Scene)+
+	
+;
+
+DataType:
+	('Capulet' | 'Montague' | 'Slave')
+;
+
+ActorParameter:
+	'[Enter' name=[ActorDeclaration] 'from' type= DataType's family]'
+;
+
+Scene:
+	'Scene' romanNumber=RomanNumber
+	(actors+= ActorParameter)*
+	(instructions+=Instructions)*
+;
+
+Instructions:
+	Assigment
+;
+Output:
+	actor=[ActorDeclaration]': Gossip about your secrets' 
+;
