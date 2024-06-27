@@ -16,16 +16,16 @@ TitleOfScript:
 
 Prologue:
 	'PROLOGUE'
-	'Wordsmith: Welcome to the theater, lets give an aplause to our cast:' 
+	'Wordsmith: Welcome to the theater, lets give an applause to our cast' 
 	(actor += ActorDeclaration',')*
 	actor += ActorDeclaration'.'
 	initials+=InitialAssigment*
-	
 ;
 
 ActorDeclaration: 
-	name=ID 'is a member of ' (type = 'Capulet' | 'Montague' | 'Slave') 'family'
+	name=ID 'is a member of ' datatype = DataType 'family'
 ;
+
 
 InitialAssigment:
 	actor=[ActorDeclaration] ': I am ' expression = Expression
@@ -41,7 +41,7 @@ Expression:
 ;
 
 Number:
-	number=INT | romanNumber=RomanNumber
+	number=INT
 ;
 
 RomanNumber:
@@ -54,7 +54,7 @@ Act:
 ;
 
 DataType:
-	('Capulet' | 'Montague' | 'Slave')
+	'Capulet' | 'Montague' | 'Slave'
 ;
 
 ActorParameter:
@@ -62,7 +62,7 @@ ActorParameter:
 ;
 
 Scene:
-	'Scene' romanNumber=RomanNumber
+	'Scene' romanNumber=RomanNumber ':' name = STRING
 	(actors+= ActorParameter)*
 	(instructions+=Instructions)*
 ;
@@ -74,6 +74,11 @@ Assigment:
 Instructions:
 	Assigment
 ;
+
+Value:
+  'miau en proceso'
+;
+
 Output:
 	actor=[ActorDeclaration]': Gossip about your secrets' 
 ;
