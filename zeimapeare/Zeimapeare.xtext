@@ -16,7 +16,7 @@ TitleOfScript:
 
 Prologue:
 	'PROLOGUE'
-	'Wordsmith: Welcome to the theater, lets give an aplause to our cast:' 
+	'Wordsmith: Welcome to the theater, lets give an applause to our cast' 
 	(actors += ActorDeclaration',')*
 	actors += ActorDeclaration'.'
 
@@ -35,18 +35,19 @@ InitialAssigment:
 
 
 Expression:
-	(('the love ' | 'the hostility ' | 'the abundance ') 'of ' exp1=Expression ' and ' exp2=Expression
+	(('the love ' | 'the hostility ' | 'the abundance ' | 'the dismemberment ' | 'the leavings ' | 'M-m-maybe next time...' | 'unless' | 'merge or dreams') 'of ' exp1=Expression ' and ' exp2=Expression
 		| number=Number
 		| actor=[ActorDeclaration]
 	)
 ;
 
 Number:
-	number=INT
+	number=INT /*| value=Value*/
 ;
 
 RomanNumber:
-    'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII' | 'IX' | 'X';
+    'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII' | 'IX' | 'X'
+    ;
 
 Act:
 	'ACT' romanNumber=RomanNumber
@@ -59,7 +60,7 @@ DataType:
 ;
 
 ActorParameter:
-	'[Enter' name=[ActorDeclaration] 'from' type= DataType's family]'
+	'[Enter' name=[ActorDeclaration] 'from' type= DataType's family'
 ;
 
 Scene:
@@ -69,17 +70,26 @@ Scene:
 ;
 
 Assigment:
-	actor=[ActorParameter] ': ' ('I am ' | 'She is ' | 'He is ' | 'You are ')  expression = Expression
+	actor=[ActorParameter] ': ' ( 'I am ' | 'She is ' | 'He is ' | 'You are ')  expression = Expression
 ;
 
 Instructions:
 	Assigment
 ;
 
-Value:
-  'miau en proceso'
+/*Value:
+	(sustantive1=Sustantive)+ | sustantive2=Sustantive (jiji = 'and a ' | 'and an ' | 'and ') adj=Adjective sustantive3=Sustantive
+	| sustantive4=Sustantive 'and' sustantive5=Sustantive
 ;
 
+Sustantive:
+	sustantive=STRING
+;
+
+Adjective:
+	(adjective+=STRING(',' adjective+=STRING)*)?
+;*/
+
 Output:
-	actor=[ActorDeclaration]': Gossip about your secrets' 
+	actor=[ActorDeclaration]': Gossip about your secrets'
 ;
