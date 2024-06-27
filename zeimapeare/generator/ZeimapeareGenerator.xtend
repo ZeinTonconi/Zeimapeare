@@ -8,6 +8,8 @@ import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 import zeimapeare.zeimapeare.Program
+import zeimapeare.zeimapeare.Prologue
+import zeimapeare.zeimapeare.ActorDeclaration
 
 /**
  * Generates code from your model files on save.
@@ -22,6 +24,17 @@ class ZeimapeareGenerator extends AbstractGenerator {
 	}
 	
 	def generateProgram(Program p)'''
-		console.log(«p.title»)
+		function main(){
+			«generateMain(p.prologue)»
+		}
+		
+		main()
 	'''
+	
+	def generateMain(Prologue prologue)'''
+		«FOR init: prologue.initials»
+			«init.actor.name» = «init.expression.number.number»
+		«ENDFOR»
+	'''
+	
 }

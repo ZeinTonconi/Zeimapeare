@@ -17,8 +17,8 @@ TitleOfScript:
 Prologue:
 	'PROLOGUE'
 	'Wordsmith: Welcome to the theater, lets give an aplause to our cast:' 
-	(actor += ActorDeclaration',')*
-	actor += ActorDeclaration'.'
+	(actors += ActorDeclaration',')*
+	actors += ActorDeclaration'.'
 	initials+=InitialAssigment*
 	
 ;
