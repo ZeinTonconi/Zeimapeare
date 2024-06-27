@@ -35,14 +35,18 @@ InitialAssigment:
 
 
 Expression:
-	(('the love ' | 'the hostility ' | 'the abundance ' | 'the dismemberment ' | 'the leavings ' | 'M-m-maybe next time...' | 'unless' | 'merge or dreams') 'of ' exp1=Expression ' and ' exp2=Expression
+	(operation=Operation 'of ' exp1=Expression ' and ' exp2=Expression
 		| number=Number
 		| actor=[ActorDeclaration]
 	)
 ;
 
+Operation:
+	('the love ' | 'the hostility ' | 'the abundance ' | 'the dismemberment ' | 'the leftovers ' | 'M-m-maybe next time...' | 'or' | 'merge or dreams' | 'inmensity ')
+;
+
 Number:
-	number=INT /*| value=Value*/
+	number=INT | value=Value
 ;
 
 RomanNumber:
@@ -60,7 +64,7 @@ DataType:
 ;
 
 ActorParameter:
-	'[Enter' name=[ActorDeclaration] 'from' type= DataType's family'
+	'[Enter' name=[ActorDeclaration] 'from' type= DataType's family]'
 ;
 
 Scene:
@@ -77,9 +81,8 @@ Instructions:
 	Assigment
 ;
 
-/*Value:
-	(sustantive1=Sustantive)+ | sustantive2=Sustantive (jiji = 'and a ' | 'and an ' | 'and ') adj=Adjective sustantive3=Sustantive
-	| sustantive4=Sustantive 'and' sustantive5=Sustantive
+Value:
+	adj=Adjective sustantive=Sustantive | 'nothing'
 ;
 
 Sustantive:
@@ -87,8 +90,8 @@ Sustantive:
 ;
 
 Adjective:
-	(adjective+=STRING(',' adjective+=STRING)*)?
-;*/
+	(adjectives+=STRING(',' adjectives+=STRING)*)?
+;
 
 Output:
 	actor=[ActorDeclaration]': Gossip about your secrets'
