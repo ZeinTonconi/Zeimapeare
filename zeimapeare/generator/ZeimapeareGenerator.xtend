@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
+import zeimapeare.zeimapeare.Program
 
 /**
  * Generates code from your model files on save.
@@ -16,10 +17,11 @@ import org.eclipse.xtext.generator.IGeneratorContext
 class ZeimapeareGenerator extends AbstractGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
-//			resource.allContents
-//				.filter(Greeting)
-//				.map[name]
-//				.join(', '))
+		val p = resource.allContents.head as Program;
+		fsa.generateFile(p.title + '.js', generateProgram(p))
 	}
+	
+	def generateProgram(Program p)'''
+		console.log(«p.title»)
+	'''
 }
