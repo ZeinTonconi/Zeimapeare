@@ -10,6 +10,10 @@ import org.eclipse.xtext.generator.IGeneratorContext
 import zeimapeare.zeimapeare.Program
 import zeimapeare.zeimapeare.Prologue
 import zeimapeare.zeimapeare.ActorDeclaration
+import zeimapeare.zeimapeare.Expression
+import zeimapeare.zeimapeare.ComplexIntExpression
+import zeimapeare.zeimapeare.ActorExpression
+import zeimapeare.zeimapeare.Number
 
 /**
  * Generates code from your model files on save.
@@ -31,9 +35,26 @@ class ZeimapeareGenerator extends AbstractGenerator {
 		main()
 	'''
 	
+	
+	def dispatch generateExpression(ComplexIntExpression expression)'''
+		«IF expression.operation.equals("the love")»
+			«generateExpression(expression.exp1)» + «generateExpression(expression.exp2)»
+		«ELSE»
+			«generateExpression(expression.exp1)» - «generateExpression(expression.exp2)»
+		«ENDIF»
+	'''
+	
+	def dispatch generateExpression(Number number)'''
+		«number.number»
+	'''
+	
+	def dispatch generateExpression(ActorExpression actor) '''
+		«actor.actor»
+	'''
+	
 	def generateMain(Prologue prologue)'''
 		«FOR init: prologue.initials»
-			«init.actor.name» = «init.expression.number.number»
+			«init.actor.name» = «generateExpression(init.expression)»
 		«ENDFOR»
 	'''
 	

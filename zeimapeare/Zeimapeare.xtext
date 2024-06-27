@@ -32,14 +32,23 @@ InitialAssigment:
 	actor=[ActorDeclaration] ': I am ' expression = Expression
 ;
 
+Operation:
+	'the love'
+;
 
+
+ActorExpression:
+	actor= [ActorDeclaration]
+;
+
+ComplexIntExpression:
+	(operation= Operation 'of' exp1=Expression 'and' exp2=Expression)
+;
 
 Expression:
-	(('the love ' | 'the hostility ' | 'the abundance ') 'of ' exp1=Expression ' and ' exp2=Expression
-		| number=Number
-		| actor=[ActorDeclaration]
-	)
+	ComplexIntExpression | Number | ActorExpression
 ;
+
 
 Number:
 	number=INT
