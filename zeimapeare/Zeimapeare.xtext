@@ -16,7 +16,7 @@ TitleOfScript:
 
 Prologue:
 	'PROLOGUE'
-	'Wordsmith: Welcome to the theater, lets give an aplause to our cast:' 
+	'Wordsmith: Welcome to the theater, lets give an applause to our cast' 
 	(actors += ActorDeclaration',')*
 	actors += ActorDeclaration'.'
 
@@ -33,7 +33,7 @@ InitialAssigment:
 ;
 
 Operation:
-	'the love'
+	('the love ' | 'the hostility ' | 'the abundance ' | 'the dismemberment ' | 'the leftovers ' | 'M-m-maybe next time...' | 'or' | 'merge or dreams' | 'inmensity ')
 ;
 
 
@@ -49,13 +49,13 @@ Expression:
 	ComplexIntExpression | Number | ActorExpression
 ;
 
-
 Number:
-	number=INT
+	number=INT | value=Value
 ;
 
 RomanNumber:
-    'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII' | 'IX' | 'X';
+    'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII' | 'IX' | 'X'
+    ;
 
 Act:
 	'ACT' romanNumber=RomanNumber
@@ -78,7 +78,7 @@ Scene:
 ;
 
 Assigment:
-	actor=[ActorParameter] ': ' ('I am ' | 'She is ' | 'He is ' | 'You are ')  expression = Expression
+	actor=[ActorParameter] ': ' ( 'I am ' | 'She is ' | 'He is ' | 'You are ')  expression = Expression
 ;
 
 Instructions:
@@ -86,9 +86,17 @@ Instructions:
 ;
 
 Value:
-  'miau en proceso'
+	adj=Adjective sustantive=Sustantive | 'nothing'
+;
+
+Sustantive:
+	sustantive=STRING
+;
+
+Adjective:
+	(adjectives+=STRING(',' adjectives+=STRING)*)?
 ;
 
 Output:
-	actor=[ActorDeclaration]': Gossip about your secrets' 
+	actor=[ActorDeclaration]': Gossip about your secrets'
 ;
