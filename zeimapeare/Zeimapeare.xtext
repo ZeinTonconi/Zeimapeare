@@ -33,7 +33,11 @@ InitialAssigment:
 ;
 
 Operation:
+<<<<<<< HEAD
 	('the love' | 'the hostility' | 'the abundance' | 'the dismemberment' | 'the leftovers' | 'M-m-maybe next time...' | 'or' | 'merge or dreams' | 'inmensity ')
+=======
+	('the love' | 'the hostility' | 'the abundance' | 'the dismemberment' | 'the leftovers' | 'M-m-maybe next time...' | 'or' | 'merge or dreams' | 'inmensity')
+>>>>>>> fcd3f30420dfd40d19583f67a6756c67be64a272
 ;
 
 
@@ -46,16 +50,20 @@ ComplexIntExpression:
 ;
 
 Expression:
-	ComplexIntExpression | Number | ActorExpression
+	ComplexIntExpression | Value | ActorExpression
 ;
 
 Number:
-	number=INT | value=Value
+	number=INT
+;
+
+Value:
+	Number | ValueSustantive
 ;
 
 RomanNumber:
     'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII' | 'IX' | 'X'
-    ;
+;
 
 Act:
 	'ACT' romanNumber=RomanNumber
@@ -78,23 +86,27 @@ Scene:
 ;
 
 Assigment:
+<<<<<<< HEAD
 	actor=[ActorParameter] ': ' ( 'I am' | 'She is' | 'He is' | 'You are')  expression = Expression
+=======
+	actor=[ActorParameter] ':' ( 'I am' | 'She is' | 'He is' | 'You are')  expression = Expression
+>>>>>>> fcd3f30420dfd40d19583f67a6756c67be64a272
 ;
 
 Instructions:
-	Assigment
+	Assigment | Output
 ;
 
-Value:
-	adj=Adjective sustantive=Sustantive | 'nothing'
+ValueSustantive:
+	'a' adj=Adjective? sustantive=Sustantive 
 ;
 
 Sustantive:
-	sustantive=STRING
+	sustantive= (STRING |  'nothing')
 ;
 
 Adjective:
-	(adjectives+=STRING(',' adjectives+=STRING)*)?
+	adjectives+=('good')(',' adjectives+=('good'))*
 ;
 
 Output:
