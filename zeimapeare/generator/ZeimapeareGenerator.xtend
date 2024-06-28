@@ -14,6 +14,7 @@ import zeimapeare.zeimapeare.Expression
 import zeimapeare.zeimapeare.ComplexIntExpression
 import zeimapeare.zeimapeare.ActorExpression
 import zeimapeare.zeimapeare.Number
+import zeimapeare.zeimapeare.ValueSustantive
 
 /**
  * Generates code from your model files on save.
@@ -28,11 +29,12 @@ class ZeimapeareGenerator extends AbstractGenerator {
 	}
 	
 	def generateProgram(Program p)'''
-		function main(){
+		function initialize(){
 			«generateMain(p.prologue)»
 		}
 		
-		main()
+		initialize()
+		
 	'''
 	
 	
@@ -47,9 +49,21 @@ class ZeimapeareGenerator extends AbstractGenerator {
 	def dispatch generateExpression(Number number)'''
 		«number.number»
 	'''
+
+	def calculateValue(ValueSustantive valueSustantive){
+		if(valueSustantive.sustantive.sustantive.equals("nothing"))
+			return 0
+		
+		val numAdj = valueSustantive.adj?.adjectives?.size()
+		return (1<<numAdj)
+	}
+
+	def dispatch generateExpression(ValueSustantive valueSustantive)'''
+		«calculateValue(valueSustantive)»
+	'''
 	
 	def dispatch generateExpression(ActorExpression actor) '''
-		«actor.actor»
+		«actor.actor.name»
 	'''
 	
 	def generateMain(Prologue prologue)'''
