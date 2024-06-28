@@ -24,16 +24,16 @@ Prologue:
 ;
 
 ActorDeclaration: 
-	name=ID 'is a member of ' datatype = DataType 'family'
+	name=ID 'is a member of' datatype = DataType 'family'
 ;
 
 
 InitialAssigment:
-	actor=[ActorDeclaration] ': I am ' expression = Expression
+	actor=[ActorDeclaration] ': I am' expression = Expression
 ;
 
 Operation:
-	('the love ' | 'the hostility ' | 'the abundance ' | 'the dismemberment ' | 'the leftovers ' | 'M-m-maybe next time...' | 'or' | 'merge or dreams' | 'inmensity ')
+	('the love' | 'the hostility' | 'the abundance' | 'the dismemberment' | 'the leftovers' | 'M-m-maybe next time...' | 'or' | 'merge or dreams' | 'inmensity ')
 ;
 
 
@@ -78,7 +78,7 @@ Scene:
 ;
 
 Assigment:
-	actor=[ActorParameter] ': ' ( 'I am ' | 'She is ' | 'He is ' | 'You are ')  expression = Expression
+	actor=[ActorParameter] ': ' ( 'I am' | 'She is' | 'He is' | 'You are')  expression = Expression
 ;
 
 Instructions:
