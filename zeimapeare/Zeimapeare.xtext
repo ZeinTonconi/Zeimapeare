@@ -28,7 +28,7 @@ ActorDeclaration:
 ;
 
 
-InitialAssigment:
+InitialAssigment returns Assigment:
 	actor=[ActorDeclaration] ': I am' expression = Expression
 ;
 
@@ -42,10 +42,10 @@ ActorExpression:
 ;
 
 ComplexIntExpression:
-	(operation= Operation 'of' exp1=Expression 'and' exp2=Expression)
+	(operation= Operation 'of' exp1=IntExpression 'and' exp2=IntExpression)
 ;
 
-Expression:
+IntExpression:
 	ComplexIntExpression | Value | ActorExpression
 ;
 
@@ -55,6 +55,10 @@ Number:
 
 Value:
 	Number | ValueSustantive
+;
+
+Expression:
+	IntExpression
 ;
 
 RomanNumber:
@@ -68,7 +72,7 @@ Act:
 ;
 
 DataType:
-	'Capulet' | 'Montague' | 'Slave'
+	('Capulet' | 'Montague' | 'Slave')
 ;
 
 ActorParameter:

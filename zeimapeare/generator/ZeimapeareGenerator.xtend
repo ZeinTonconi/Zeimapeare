@@ -65,6 +65,9 @@ class ZeimapeareGenerator extends AbstractGenerator {
 	def dispatch generateExpression(ActorExpression actor) '''
 		«actor.actor.name»
 	'''
+	def dispatch generateExpression(Expression exp) '''
+		«generateExpression(exp)»
+	'''
 	
 	def generateMain(Prologue prologue)'''
 		«FOR init: prologue.initials»

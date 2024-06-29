@@ -3,16 +3,14 @@
  */
 package zeimapeare.validation;
 
-import java.util.List;
-
 import org.eclipse.xtext.validation.Check;
 
-import zeimapeare.zeimapeare.Act;
-import zeimapeare.zeimapeare.ActorDeclaration;
-import zeimapeare.zeimapeare.ActorParameter;
-import zeimapeare.zeimapeare.Program;
-import zeimapeare.zeimapeare.Prologue;
-import zeimapeare.zeimapeare.Scene;
+import zeimapeare.zeimapeare.ActorExpression;
+import zeimapeare.zeimapeare.ComplexIntExpression;
+import zeimapeare.zeimapeare.Expression;
+import zeimapeare.zeimapeare.InitialAssigment;
+import zeimapeare.zeimapeare.IntExpression;
+import zeimapeare.zeimapeare.Value;
 import zeimapeare.zeimapeare.ZeimapearePackage;
 
 /**
@@ -32,8 +30,60 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 //					INVALID_NAME);
 //		}
 //	}
-	@Check
-	public void checkActorEnterToScene(Scene s) {
-		
+//	@Check
+//	public void checkActorInIntExpression(IntExpression intExpr) {
+//		if(intExpr instanceof ActorExpression) {
+//			ActorExpression actor = (ActorExpression) intExpr;
+//			if(actor.getActor().getDatatype().equals("Capulet"))
+//				error("Wrong Family",
+//						ZeimapearePackage.Literals.ACTOR_DECLARATION__DATATYPE,
+//						"Mismatch family");
+//		}
+//	}
+	
+	public String findFamily(Value v) {
+		return "Montague";
 	}
+	
+	public String findFamily(ActorExpression actor) {
+		return actor.getActor().getDatatype();
+	}
+	
+	public String findFamily(ComplexIntExpression complex) {
+		
+		String family1=findFamily(complex.getExp1());
+		String family2=findFamily(complex.getExp2());
+	
+		if(family1.equals(family2))
+			return family1;
+		return "No family";
+	}
+	
+	public String findFamily(IntExpression intExpr) {
+		if(intExpr instanceof ComplexIntExpression)
+			return findFamily((ComplexIntExpression)intExpr);
+		if(intExpr instanceof Value)
+			return findFamily((Value)intExpr);
+		if(intExpr instanceof ActorExpression)
+			return findFamily((ActorExpression) intExpr);
+		return "No family";
+	}
+	
+	public String findFamily(Expression expr) {
+		if(expr instanceof IntExpression && findFamily((IntExpression) expr).equals("Capulet")) {
+			return "Montague";
+		}
+			
+		return "No family";
+	}
+	
+	
+	
+	@Check
+	public void checkAssignmentDataTypeActor(InitialAssigment assignment) {
+		if(!assignment.getActor().getDatatype().equals(findFamily(assignment.getExpression())))
+			error("Wrong Family", assignment, ZeimapearePackage.Literals.INITIAL_ASSIGMENT__EXPRESSION);
+			
+	}
+
 }
