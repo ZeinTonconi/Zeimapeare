@@ -5,10 +5,11 @@ package zeimapeare.validation;
 
 import org.eclipse.xtext.validation.Check;
 
+import zeimapeare.zeimapeare.ActorDeclaration;
 import zeimapeare.zeimapeare.ActorExpression;
+import zeimapeare.zeimapeare.Assigment;
 import zeimapeare.zeimapeare.ComplexIntExpression;
 import zeimapeare.zeimapeare.Expression;
-import zeimapeare.zeimapeare.InitialAssigment;
 import zeimapeare.zeimapeare.IntExpression;
 import zeimapeare.zeimapeare.Value;
 import zeimapeare.zeimapeare.ZeimapearePackage;
@@ -70,7 +71,7 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 	}
 	
 	public String findFamily(Expression expr) {
-		if(expr instanceof IntExpression && findFamily((IntExpression) expr).equals("Capulet")) {
+		if(expr instanceof IntExpression && findFamily((IntExpression) expr).equals("Montague")) {
 			return "Montague";
 		}
 			
@@ -80,9 +81,10 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 	
 	
 	@Check
-	public void checkAssignmentDataTypeActor(InitialAssigment assignment) {
+	public void checkAssignmentDataTypeActor(Assigment assignment) {
+		
 		if(!assignment.getActor().getDatatype().equals(findFamily(assignment.getExpression())))
-			error("Wrong Family", assignment, ZeimapearePackage.Literals.INITIAL_ASSIGMENT__EXPRESSION);
+			error("Wrong Family", assignment, ZeimapearePackage.Literals.ASSIGMENT__EXPRESSION);
 			
 	}
 
