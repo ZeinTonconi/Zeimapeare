@@ -27,17 +27,16 @@ ActorDeclaration:
 	name=ID 'is a member of' datatype = DataType 'family'
 ;
 
+ActorExtraParameter returns ActorDeclaration:
+	'[Enter' name=ID 'from' datatype = DataType 'family]'
+;
 
 InitialAssigment:
 	actor=[ActorDeclaration] ': I am' expression = Expression
 ;
 
 Operation:
-<<<<<<< HEAD
-	('the love' | 'the hostility' | 'the abundance' | 'the dismemberment' | 'the leftovers' | 'M-m-maybe next time...' | 'or' | 'merge or dreams' | 'inmensity ')
-=======
-	('the love' | 'the hostility' | 'the abundance' | 'the dismemberment' | 'the leftovers' | 'M-m-maybe next time...' | 'or' | 'merge or dreams' | 'inmensity')
->>>>>>> fcd3f30420dfd40d19583f67a6756c67be64a272
+	operations=('the love' | 'the hostility' | 'the abundance' | 'the dismemberment' | 'the leftovers' | 'M-m-maybe next time...' | 'or' | 'merge or dreams' | 'inmensity')
 ;
 
 
@@ -62,35 +61,32 @@ Value:
 ;
 
 RomanNumber:
-    'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII' | 'IX' | 'X'
+     romanNumber= ('I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII' | 'IX' | 'X')
 ;
 
 Act:
 	'ACT' romanNumber=RomanNumber
 	(scene+=Scene)+
-	
 ;
 
 DataType:
-	'Capulet' | 'Montague' | 'Slave'
+	datatype=('Capulet' | 'Montague' | 'Slave')
 ;
 
 ActorParameter:
-	'[Enter' name=[ActorDeclaration] 'from' type= DataType's family]'
+	'[Enter' name=[ActorDeclaration]']'
 ;
 
 Scene:
 	'Scene' romanNumber=RomanNumber ':' name = STRING
 	(actors+= ActorParameter)*
+	(actorsExtra+= ActorExtraParameter)*
 	(instructions+=Instructions)*
+	(sceneCall+=SceneCall)*
 ;
 
 Assigment:
-<<<<<<< HEAD
-	actor=[ActorParameter] ': ' ( 'I am' | 'She is' | 'He is' | 'You are')  expression = Expression
-=======
-	actor=[ActorParameter] ':' ( 'I am' | 'She is' | 'He is' | 'You are')  expression = Expression
->>>>>>> fcd3f30420dfd40d19583f67a6756c67be64a272
+	actor=[ActorParameter]':' ( 'I am' | 'She is' | 'He is' | 'You are')  expression = Expression
 ;
 
 Instructions:
@@ -102,7 +98,7 @@ ValueSustantive:
 ;
 
 Sustantive:
-	sustantive= (STRING |  'nothing')
+	sustantive= (STRING | 'nothing')
 ;
 
 Adjective:
@@ -111,4 +107,8 @@ Adjective:
 
 Output:
 	actor=[ActorDeclaration]': Gossip about your secrets'
+;
+
+SceneCall:
+	sceneCall1=[Scene] 'of' 'en proceso miau'
 ;
