@@ -89,9 +89,9 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 			
 	}
 	
-	@Check
-	public void checkParametersOfCallScene(SceneCall sceneCall) {
-		if(sceneCall.getActorScene().getActors() && sceneCall.getActorScene().getActorsExtra() != sceneCall.get )
-	}
+//	@Check
+//	public void checkParametersOfCallScene(SceneCall sceneCall) {
+//		if(sceneCall.getActorScene().getActors() && sceneCall.getActorScene().getActorsExtra() != sceneCall.get )
+//	}
 
 }

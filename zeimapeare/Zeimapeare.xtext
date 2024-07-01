@@ -60,8 +60,21 @@ Value:
 	Number | ValueSustantive
 ;
 
+
+ComplexStringExpression:
+	'the love of' exp1=StringExpression 'and' exp2=StringExpression
+;
+
+ValueString:
+	value=STRING
+;
+
+StringExpression:
+	ComplexStringExpression | ValueString | ActorExpression
+;
+
 Expression:
-	IntExpression
+	IntExpression | StringExpression
 ;
 
 RomanNumber:
@@ -89,7 +102,7 @@ Scene:
 ;
 
 ActorScene:
-	(actors+= ActorParameter)*
+	{ActorScene} (actors+= ActorParameter)*
 	(actorsExtra+= ActorExtraParameter)*
 ;
 
@@ -140,7 +153,7 @@ If:
 ;
 
 Else:
-	'Wordsmith: Unless?'
+	{Else} 'Wordsmith: Unless?'
 	(instructions+=Instructions)*
 	'Wordsmith: Will it continue?'
 ;
