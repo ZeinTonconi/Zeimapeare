@@ -15,6 +15,10 @@ import zeimapeare.zeimapeare.ComplexIntExpression
 import zeimapeare.zeimapeare.ActorExpression
 import zeimapeare.zeimapeare.Number
 import zeimapeare.zeimapeare.ValueSustantive
+import zeimapeare.zeimapeare.Assigment
+import zeimapeare.zeimapeare.Output
+import zeimapeare.zeimapeare.Act
+import zeimapeare.zeimapeare.Scene
 
 /**
  * Generates code from your model files on save.
@@ -33,10 +37,28 @@ class ZeimapeareGenerator extends AbstractGenerator {
 			«generateMain(p.prologue)»
 		}
 		
+		«FOR act: p.acts»
+			«generateSceneFromAct(act)»
+		«ENDFOR»
+		
 		initialize()
+		actISceneI();
 		
 	'''
 	
+	def generateSceneFromAct(Act act)'''
+		«FOR scene: act.scene»
+			function act«act.romanNumber»«generateFunctionFromScene(scene)»
+		«ENDFOR»
+	'''
+	
+	def generateFunctionFromScene(Scene scene)'''
+		Scene«scene.romanNumber»(){
+			«FOR instruction: scene.instructions»
+				 «generateInstruction(instruction)»
+			«ENDFOR»
+		}
+	'''
 	
 	def dispatch generateExpression(ComplexIntExpression expression)'''
 		«IF expression.operation.equals("the love")»
@@ -64,6 +86,17 @@ class ZeimapeareGenerator extends AbstractGenerator {
 	
 	def dispatch generateExpression(ActorExpression actor) '''
 		«actor.actor.name»
+	'''
+	def dispatch generateExpression(Expression exp) '''
+		«generateExpression(exp)»
+	'''
+	
+	def dispatch generateInstruction(Assigment assigment)'''
+		«assigment.actor» = «generateExpression(assigment.expression)»
+	'''
+	
+	def dispatch generateInstruction(Output output) '''
+		console.log(«output.actor.name»)
 	'''
 	
 	def generateMain(Prologue prologue)'''

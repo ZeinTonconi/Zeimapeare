@@ -31,7 +31,7 @@ ActorExtraParameter returns ActorDeclaration:
 	'[Enter' name=ID 'from' datatype = DataType 'family]'
 ;
 
-InitialAssigment:
+InitialAssigment returns Assigment:
 	actor=[ActorDeclaration] ': I am' expression = Expression
 ;
 
@@ -45,10 +45,10 @@ ActorExpression:
 ;
 
 ComplexIntExpression:
-	(operation= Operation 'of' exp1=Expression 'and' exp2=Expression)
+	(operation= Operation 'of' exp1=IntExpression 'and' exp2=IntExpression)
 ;
 
-Expression:
+IntExpression:
 	ComplexIntExpression | Value | ActorExpression
 ;
 
@@ -58,6 +58,10 @@ Number:
 
 Value:
 	Number | ValueSustantive
+;
+
+Expression:
+	IntExpression
 ;
 
 RomanNumber:
@@ -70,7 +74,7 @@ Act:
 ;
 
 DataType:
-	datatype=('Capulet' | 'Montague' | 'Slave')
+	('Capulet' | 'Montague' | 'Slave')
 ;
 
 ActorParameter:
@@ -79,18 +83,22 @@ ActorParameter:
 
 Scene:
 	'Scene' romanNumber=RomanNumber ':' name = STRING
-	(actors+= ActorParameter)*
-	(actorsExtra+= ActorExtraParameter)*
+	actorScene=ActorScene
 	(instructions+=Instructions)*
 	(sceneCall+=SceneCall)*
 ;
 
+ActorScene:
+	(actors+= ActorParameter)*
+	(actorsExtra+= ActorExtraParameter)*
+;
+
 Assigment:
-	actor=[ActorParameter]':' ( 'I am' | 'She is' | 'He is' | 'You are')  expression = Expression
+	actor=[ActorDeclaration] ':' ( 'I am' | 'She is' | 'He is' | 'You are')  expression = Expression
 ;
 
 Instructions:
-	Assigment | Output
+	Assigment | Output | If
 ;
 
 ValueSustantive:
@@ -110,5 +118,18 @@ Output:
 ;
 
 SceneCall:
-	sceneCall1=[Scene] 'of' 'en proceso miau'
+	sceneCall=[Scene] 'of' actorScene=ActorScene
 ;
+
+Comparison:
+	'better' | 'worse' | 'better or equal' | 'worse or equal'
+;
+
+If:
+	'Narrator: If' exp1=Expression 'is' comp=Comparison 'than' exp2=Expression
+;
+
+//While:
+//	'Narrator: To be, or not to be, that is the query'
+//	'Whether 'actor=[ActorDeclaration] 
+//;
