@@ -85,8 +85,13 @@ Scene:
 	(instructions+=Instructions)*
 ;
 
+
+//Assigment:
+//	actor=[ActorDeclaration] ':' ( 'I am ' | 'She is' | 'He is' | 'You are')  expression = Expression
+//;
+
 Assigment:
-	actor=[ActorDeclaration] ':' ( 'I am' | 'She is' | 'He is' | 'You are')  expression = Expression
+	actor=[ActorDeclaration] ': You are'    expression = Expression
 ;
 
 Instructions:
@@ -109,12 +114,23 @@ Output:
 	actor=[ActorDeclaration]': Gossip about your secrets'
 ;
 
+//TODO: Preguntar a Alexis
+// Sin los espacios no sirve :(
 Comparison:
-	'better' | 'worse' | 'better or equal' | 'worse or equal'
+	'better ' | 'worse' | 'better or equal' | 'worse or equal'
 ;
 
 If:
-	'Narrator: If' exp1=Expression 'is' comp=Comparison 'than' exp2=Expression
+	'Wordsmith: If' exp1=Expression 'is ' comp=Comparison 'than' exp2=Expression
+	(instructions+=Instructions)*
+	'Wordsmith: Will it continue?'
+	else=Else?
+;
+
+Else:
+	'Wordsmith: Unless?'
+	(instructions+=Instructions)*
+	'Wordsmith: Will it continue?'
 ;
 
 //While:

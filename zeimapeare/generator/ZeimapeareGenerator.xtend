@@ -19,6 +19,7 @@ import zeimapeare.zeimapeare.Assigment
 import zeimapeare.zeimapeare.Output
 import zeimapeare.zeimapeare.Act
 import zeimapeare.zeimapeare.Scene
+import zeimapeare.zeimapeare.If
 
 /**
  * Generates code from your model files on save.
@@ -97,6 +98,20 @@ class ZeimapeareGenerator extends AbstractGenerator {
 	
 	def dispatch generateInstruction(Output output) '''
 		console.log(«output.actor.name»)
+	'''
+	
+	def generateCondition(String comp)'''
+		«IF comp.equals("better")» >
+		«ELSE» <
+		«ENDIF»
+	'''
+	
+	def dispatch generateInstruction(If ifInst)'''
+		if(«generateExpression(ifInst.exp1)»«generateCondition(ifInst.comp)»«generateExpression(ifInst.exp2)»){
+			«FOR inst: ifInst.instructions»
+				«generateInstruction(inst)»
+			«ENDFOR»
+		}
 	'''
 	
 	def generateMain(Prologue prologue)'''
