@@ -27,13 +27,16 @@ ActorDeclaration:
 	name=ID 'is a member of' datatype = DataType 'family'
 ;
 
+ActorExtraParameter returns ActorDeclaration:
+	'[Enter' name=ID 'from' datatype = DataType 'family]'
+;
 
 InitialAssigment returns Assigment:
 	actor=[ActorDeclaration] ': I am' expression = Expression
 ;
 
 Operation:
-	('the love' | 'the hostility' | 'the abundance' | 'the dismemberment' | 'the leftovers' | 'M-m-maybe next time...' | 'or' | 'merge or dreams' | 'inmensity')
+	operations=('the love' | 'the hostility' | 'the abundance' | 'the dismemberment' | 'the leftovers' | 'M-m-maybe next time...' | 'or' | 'merge or dreams' | 'inmensity')
 ;
 
 
@@ -62,13 +65,12 @@ Expression:
 ;
 
 RomanNumber:
-    'I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII' | 'IX' | 'X'
+     romanNumber= ('I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII' | 'IX' | 'X')
 ;
 
 Act:
 	'ACT' romanNumber=RomanNumber
 	(scene+=Scene)+
-	
 ;
 
 DataType:
@@ -76,13 +78,19 @@ DataType:
 ;
 
 ActorParameter:
-	'[Enter' name=[ActorDeclaration] 'from' type= DataType's family]'
+	'[Enter' name=[ActorDeclaration]']'
 ;
 
 Scene:
 	'Scene' romanNumber=RomanNumber ':' name = STRING
-	(actors+= ActorParameter)*
+	actorScene=ActorScene
 	(instructions+=Instructions)*
+	(sceneCall+=SceneCall)*
+;
+
+ActorScene:
+	(actors+= ActorParameter)*
+	(actorsExtra+= ActorExtraParameter)*
 ;
 
 
@@ -103,7 +111,7 @@ ValueSustantive:
 ;
 
 Sustantive:
-	sustantive= (STRING |  'nothing')
+	sustantive= (STRING | 'nothing')
 ;
 
 Adjective:
@@ -118,6 +126,10 @@ Output:
 // Sin los espacios no sirve :(
 Comparison:
 	'better ' | 'worse' | 'better or equal' | 'worse or equal'
+;
+
+SceneCall:
+	sceneCall=[Scene] 'of' actorScene=ActorScene
 ;
 
 If:

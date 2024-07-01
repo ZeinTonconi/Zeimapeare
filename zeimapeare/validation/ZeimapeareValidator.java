@@ -11,6 +11,7 @@ import zeimapeare.zeimapeare.Assigment;
 import zeimapeare.zeimapeare.ComplexIntExpression;
 import zeimapeare.zeimapeare.Expression;
 import zeimapeare.zeimapeare.IntExpression;
+import zeimapeare.zeimapeare.SceneCall;
 import zeimapeare.zeimapeare.Value;
 import zeimapeare.zeimapeare.ZeimapearePackage;
 
@@ -86,6 +87,11 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 		if(!assignment.getActor().getDatatype().equals(findFamily(assignment.getExpression())))
 			error("Wrong Family", assignment, ZeimapearePackage.Literals.ASSIGMENT__EXPRESSION);
 			
+	}
+	
+	@Check
+	public void checkParametersOfCallScene(SceneCall sceneCall) {
+		if(sceneCall.getActorScene().getActors() && sceneCall.getActorScene().getActorsExtra() != sceneCall.get )
 	}
 
 }
