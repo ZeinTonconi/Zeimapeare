@@ -144,13 +144,9 @@ class ZeimapeareGenerator extends AbstractGenerator {
 	
 	def dispatch generateInstruction(If ifInst)'''
 		if(«generateCondition(ifInst.condition)»){
-			«FOR inst: ifInst.instructions»
-				«generateInstruction(inst)»
-			«ENDFOR»
+			«generateListInstruction(ifInst.instructions)»
 		} else{
-			«FOR inst: ifInst.^else.instructions»
-				«generateInstruction(inst)»
-			«ENDFOR»
+			«generateListInstruction(ifInst.^else.instructions)»
 		}
 	'''
 	
@@ -175,9 +171,11 @@ class ZeimapeareGenerator extends AbstractGenerator {
 	'''
 	
 	def generateListInstruction(List<Instructions> instructions)'''
-		«FOR inst: instructions»
-			«generateInstruction(inst)»
-		«ENDFOR»
+		«IF instructions != null»
+			«FOR inst: instructions»
+				«generateInstruction(inst)»
+			«ENDFOR»
+		«ENDIF»
 	'''
 	
 	def dispatch generateInstruction(While whileInst)'''
