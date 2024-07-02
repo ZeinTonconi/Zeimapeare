@@ -60,21 +60,8 @@ Value:
 	Number | ValueSustantive
 ;
 
-
-ComplexStringExpression:
-	'the love of' exp1=StringExpression 'and' exp2=StringExpression
-;
-
-ValueString:
-	value=STRING
-;
-
-StringExpression:
-	ComplexStringExpression | ValueString | ActorExpression
-;
-
 Expression:
-	IntExpression | StringExpression
+	IntExpression
 ;
 
 RomanNumber:
@@ -102,10 +89,9 @@ Scene:
 ;
 
 ActorScene:
-	{ActorScene} (actors+= ActorParameter)*
+	(actors+= ActorParameter)*
 	(actorsExtra+= ActorExtraParameter)*
 ;
-
 
 //Assigment:
 //	actor=[ActorDeclaration] ':' ( 'I am ' | 'She is' | 'He is' | 'You are')  expression = Expression
@@ -141,8 +127,12 @@ Comparison:
 	'better ' | 'worse' | 'better or equal' | 'worse or equal'
 ;
 
+ParameterSceneCall:
+	(actorsExtra+=([ActorDeclaration])(', ' actorsExtra+=[ActorDeclaration])*)
+;
+
 SceneCall:
-	sceneCall=[Scene] 'of' actorScene=ActorScene
+	'Wordsmith: We need to remember the ' sceneCall=[Scene] ('of ' parameterSceneCall=ParameterSceneCall)? '.'
 ;
 
 If:

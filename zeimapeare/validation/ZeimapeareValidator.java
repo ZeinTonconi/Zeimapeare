@@ -11,6 +11,7 @@ import zeimapeare.zeimapeare.Assigment;
 import zeimapeare.zeimapeare.ComplexIntExpression;
 import zeimapeare.zeimapeare.Expression;
 import zeimapeare.zeimapeare.IntExpression;
+import zeimapeare.zeimapeare.Scene;
 import zeimapeare.zeimapeare.SceneCall;
 import zeimapeare.zeimapeare.Value;
 import zeimapeare.zeimapeare.ZeimapearePackage;
@@ -89,9 +90,18 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 			
 	}
 	
-//	@Check
-//	public void checkParametersOfCallScene(SceneCall sceneCall) {
-//		if(sceneCall.getActorScene().getActors() && sceneCall.getActorScene().getActorsExtra() != sceneCall.get )
-//	}
-
+	@Check
+	public void checkParametersOfCallScene(SceneCall sceneCall) {
+		Scene scene = sceneCall.getSceneCall();
+		int sizeOfActorSceneCall = 0;
+		if(sceneCall.getParameterSceneCall() != null) {
+			sizeOfActorSceneCall = sceneCall.getParameterSceneCall().getActorsExtra().size();
+		}
+		
+		if(sizeOfActorSceneCall > scene.getActorScene().getActorsExtra().size())
+			error("There are impostors on the scene", sceneCall, ZeimapearePackage.Literals.SCENE_CALL__PARAMETER_SCENE_CALL);
+		
+		if(sizeOfActorSceneCall < scene.getActorScene().getActorsExtra().size())
+			error("You killed actors without God's permission", sceneCall, ZeimapearePackage.Literals.SCENE_CALL__PARAMETER_SCENE_CALL);
+	}
 }
