@@ -58,9 +58,6 @@ class ZeimapeareGenerator extends AbstractGenerator {
 	'''
 	
 	def generateParams(ActorScene actors)'''
-		«FOR actor: actors.actors»
-			«actor.name.name», 
-		«ENDFOR»
 		«FOR actor: actors.actorsExtra»
 			«actor.name», 
 		«ENDFOR»

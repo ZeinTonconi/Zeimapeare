@@ -60,8 +60,6 @@ Value:
 	Number | ValueSustantive
 ;
 
-<<<<<<< HEAD
-
 ComplexStringExpression:
 	'the embrance of' exp1=Expression 'and' exp2=Expression
 ;
@@ -76,10 +74,6 @@ StringExpression:
 
 Expression:
 	IntExpression | StringExpression | ActorExpression
-=======
-Expression:
-	IntExpression
->>>>>>> 0c536994e36d1bacf34dd38ead3ebfaa455361fe
 ;
 
 RomanNumber:
