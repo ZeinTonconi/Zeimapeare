@@ -38,7 +38,7 @@ InitialAssigment returns Assigment:
 ;
 
 Operation:
-	operations=('the love' | 'the hostility' | 'the abundance' | 'the dismemberment' | 'the leftovers' | 'M-m-maybe next time...' | 'or' | 'merge or dreams' | 'inmensity')
+	operations=('the love' | 'the hostility' | 'the abundance' | 'the dismemberment' | 'the leftovers')
 ;
 
 
@@ -64,7 +64,7 @@ Value:
 ;
 
 ComplexStringExpression:
-	'the embrance of' exp1=Expression 'and' exp2=Expression
+	'merge or dreams' exp1=Expression 'and' exp2=Expression
 ;
 
 ValueString:
@@ -161,7 +161,7 @@ ActorSceneCall:
 ;
 
 BooleanOperation:
-	('otherwise' | 'and')
+	('otherwise' | 'M-m-maybe next time...')
 ;
 
 ComplexCondition:

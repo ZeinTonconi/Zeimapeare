@@ -143,8 +143,8 @@ class ZeimapeareGenerator extends AbstractGenerator {
 		«generateExpression(condition.exp1)» «generateComparator(condition.comp)»«generateExpression(condition.exp2)»
 	'''
 	def generateBooleanOperator(String op)'''
-		«IF op.equals("and")» &&
-		«ELSE» ||
+		«IF op.equals("M-m-maybe next time...")» &&
+		«ELSEIF op.equals("otherwise")» ||
 		«ENDIF»
 	'''
 	

@@ -9,6 +9,7 @@ import org.eclipse.xtext.validation.Check;
 
 import zeimapeare.zeimapeare.ActorDeclaration;
 import zeimapeare.zeimapeare.ActorExpression;
+import zeimapeare.zeimapeare.ActorSceneCall;
 import zeimapeare.zeimapeare.Assigment;
 import zeimapeare.zeimapeare.ComplexCondition;
 import zeimapeare.zeimapeare.ComplexIntExpression;
