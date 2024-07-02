@@ -108,7 +108,11 @@ ActorScene:
 ;
 
 //Assigment:
-//	actor=[ActorDeclaration] ':' ( 'I am ' | 'She is' | 'He is' | 'You are')  expression = Expression
+//	actor=[ActorDeclaration] ':' AssignmentOP   expression = Expression
+//;
+//
+//AssignmentOP:
+//	'I am' | 'She is' | 'He is' | 'You are'
 //;
 
 Assigment:
@@ -116,7 +120,7 @@ Assigment:
 ;
 
 Instructions:
-	Assigment | Output | If | SceneCall
+	Assigment | Output | If | SceneCall | While
 ;
 
 ValueSustantive:
@@ -166,7 +170,10 @@ Else:
 	'Wordsmith: Will it continue?'
 ;
 
-//While:
-//	'Narrator: To be, or not to be, that is the query'
-//	'Whether 'actor=[ActorDeclaration] 
-//;
+While:
+	'Narrator: To be, or not to be, that is the query'
+	'Whether' condition= Condition 
+	(instructions+= Instructions)*
+	'Wordsmith: The end?'
+;
+
