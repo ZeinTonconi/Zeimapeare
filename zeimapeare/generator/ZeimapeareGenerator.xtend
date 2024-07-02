@@ -130,7 +130,9 @@ class ZeimapeareGenerator extends AbstractGenerator {
 	
 	def generateComparator(String comp)'''
 		«IF comp.equals("better")» >
-		«ELSE» <
+		«ELSEIF comp.equals("worse")» <
+		«ELSEIF comp.equals("better or equal")» >=
+		«ELSEIF comp.equals("worse or equal")» <=
 		«ENDIF»
 	'''
 	
