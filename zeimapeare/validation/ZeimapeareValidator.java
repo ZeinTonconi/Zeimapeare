@@ -9,7 +9,6 @@ import org.eclipse.xtext.validation.Check;
 
 import zeimapeare.zeimapeare.ActorDeclaration;
 import zeimapeare.zeimapeare.ActorExpression;
-import zeimapeare.zeimapeare.ActorSceneCall;
 import zeimapeare.zeimapeare.Assigment;
 import zeimapeare.zeimapeare.ComplexCondition;
 import zeimapeare.zeimapeare.ComplexIntExpression;
@@ -17,7 +16,6 @@ import zeimapeare.zeimapeare.ComplexStringExpression;
 import zeimapeare.zeimapeare.Condition;
 import zeimapeare.zeimapeare.Expression;
 import zeimapeare.zeimapeare.If;
-import zeimapeare.zeimapeare.Instructions;
 import zeimapeare.zeimapeare.IntExpression;
 import zeimapeare.zeimapeare.ParameterSceneCall;
 import zeimapeare.zeimapeare.Return;
@@ -121,34 +119,6 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 		return "No family";
 	}
 	
-	public String findReturnFamily(Scene scene) {
-		String family="";
-		for(Instructions inst: scene.getInstructions()) {
-			if(inst instanceof Return) {
-				String actorFamily = ((Return) inst).getActor().getDatatype();
-				if(family.isEmpty())
-					family = actorFamily;
-				else{
-					if(!family.equals(actorFamily))
-						return "No family";
-				}
-			}
-		}
-		return family;
-	}
-	
-	@Check
-	public void checkSceneFamilyReturns(Scene scene) {
-		if(findReturnFamily(scene).equals("No family"))
-			error("A family of bastards!", scene, ZeimapearePackage.Literals.SCENE__NAME);
-	}
-	
-	@Check
-	public void checkActorCallsScene(ActorSceneCall actorCall) {
-		if(!actorCall.getActor().getDatatype().equals(findReturnFamily(actorCall.getSceneCall()))){
-			error("You don't belong there!", actorCall, ZeimapearePackage.Literals.ACTOR_SCENE_CALL__SCENE_CALL);
-		}
-	}
 	
 	@Check
 	public void checkAssignmentDataTypeActor(Assigment assignment) {
