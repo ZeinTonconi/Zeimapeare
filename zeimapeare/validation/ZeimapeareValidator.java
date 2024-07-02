@@ -75,10 +75,6 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 		String family1=findFamily(complex.getExp1());
 		String family2=findFamily(complex.getExp2());
 	
-		System.out.println(complex.getExp1());
-		System.out.println(complex.getExp2());
-		System.out.println(family1);
-		System.out.println(family2);
 		if(family1.equals(family2))
 			return family1;
 		return "No family";

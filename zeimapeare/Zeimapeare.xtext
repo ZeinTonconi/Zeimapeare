@@ -21,6 +21,8 @@ Prologue:
 	actors += ActorDeclaration'.'
 
 	initials+=InitialAssigment*
+	
+	main=SceneCall
 ;
 
 ActorDeclaration: 
@@ -44,8 +46,9 @@ ActorExpression:
 	actor= [ActorDeclaration]
 ;
 
+//Sin el espacio no funciona
 ComplexIntExpression:
-	(operation= Operation 'of' exp1=Expression 'and' exp2=Expression)
+	(operation= Operation 'of ' exp1=Expression 'and' exp2=Expression)
 ;
 
 IntExpression:
@@ -97,11 +100,10 @@ Scene:
 	'Scene' romanNumber=RomanNumber ':' name = STRING
 	actorScene=ActorScene
 	(instructions+=Instructions)*
-	(sceneCall+=SceneCall)*
 ;
 
 ActorScene:
-	(actors+= ActorParameter)*
+	{ActorScene} (actors+= ActorParameter)*
 	(actorsExtra+= ActorExtraParameter)*
 ;
 
@@ -114,7 +116,7 @@ Assigment:
 ;
 
 Instructions:
-	Assigment | Output | If
+	Assigment | Output | If | SceneCall
 ;
 
 ValueSustantive:
