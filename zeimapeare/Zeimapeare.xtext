@@ -45,11 +45,11 @@ ActorExpression:
 ;
 
 ComplexIntExpression:
-	(operation= Operation 'of' exp1=IntExpression 'and' exp2=IntExpression)
+	(operation= Operation 'of' exp1=Expression 'and' exp2=Expression)
 ;
 
 IntExpression:
-	ComplexIntExpression | Value | ActorExpression
+	ComplexIntExpression | Value 
 ;
 
 Number:
@@ -62,7 +62,7 @@ Value:
 
 
 ComplexStringExpression:
-	'the love of' exp1=StringExpression 'and' exp2=StringExpression
+	'the embrance of' exp1=Expression 'and' exp2=Expression
 ;
 
 ValueString:
@@ -70,11 +70,11 @@ ValueString:
 ;
 
 StringExpression:
-	ComplexStringExpression | ValueString | ActorExpression
+	ComplexStringExpression | ValueString
 ;
 
 Expression:
-	IntExpression | StringExpression
+	IntExpression | StringExpression | ActorExpression
 ;
 
 RomanNumber:
@@ -145,8 +145,12 @@ SceneCall:
 	sceneCall=[Scene] 'of' actorScene=ActorScene
 ;
 
+Condition:
+	exp1=Expression 'is ' comp=Comparison 'than' exp2=Expression
+;
+
 If:
-	'Wordsmith: If' exp1=Expression 'is ' comp=Comparison 'than' exp2=Expression
+	'Wordsmith: If' condition=Condition
 	(instructions+=Instructions)*
 	'Wordsmith: Will it continue?'
 	else=Else?

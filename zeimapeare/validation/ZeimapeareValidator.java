@@ -9,10 +9,15 @@ import zeimapeare.zeimapeare.ActorDeclaration;
 import zeimapeare.zeimapeare.ActorExpression;
 import zeimapeare.zeimapeare.Assigment;
 import zeimapeare.zeimapeare.ComplexIntExpression;
+import zeimapeare.zeimapeare.ComplexStringExpression;
+import zeimapeare.zeimapeare.Condition;
 import zeimapeare.zeimapeare.Expression;
+import zeimapeare.zeimapeare.If;
 import zeimapeare.zeimapeare.IntExpression;
 import zeimapeare.zeimapeare.SceneCall;
+import zeimapeare.zeimapeare.StringExpression;
 import zeimapeare.zeimapeare.Value;
+import zeimapeare.zeimapeare.ValueString;
 import zeimapeare.zeimapeare.ZeimapearePackage;
 
 /**
@@ -43,6 +48,19 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 //		}
 //	}
 	
+	public String findFamily(ComplexStringExpression complex) {
+		String family1=findFamily(complex.getExp1());
+		String family2=findFamily(complex.getExp2());
+	
+		if(family1.equals(family2))
+			return family1;
+		return "No family";
+	}
+	
+	public String findFamily(ValueString value) {
+		return "Capulet";
+	}
+	
 	public String findFamily(Value v) {
 		return "Montague";
 	}
@@ -56,6 +74,10 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 		String family1=findFamily(complex.getExp1());
 		String family2=findFamily(complex.getExp2());
 	
+		System.out.println(complex.getExp1());
+		System.out.println(complex.getExp2());
+		System.out.println(family1);
+		System.out.println(family2);
 		if(family1.equals(family2))
 			return family1;
 		return "No family";
@@ -71,11 +93,27 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 		return "No family";
 	}
 	
+	public String findFamily(StringExpression stringExpr) {
+		if(stringExpr instanceof ComplexStringExpression)
+			return findFamily((ComplexStringExpression)stringExpr);
+		if(stringExpr instanceof ValueString)
+			return findFamily((ValueString)stringExpr);
+		if(stringExpr instanceof ActorExpression)
+			return findFamily((ActorExpression) stringExpr);
+		return "No family";
+	}
+	
 	public String findFamily(Expression expr) {
+
 		if(expr instanceof IntExpression && findFamily((IntExpression) expr).equals("Montague")) {
 			return "Montague";
 		}
-			
+		if(expr instanceof StringExpression && findFamily((StringExpression) expr).equals("Capulet"))
+			return "Capulet";
+		
+		if(expr instanceof ActorExpression)
+			return findFamily((ActorExpression)expr);
+
 		return "No family";
 	}
 	
@@ -87,6 +125,17 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 		if(!assignment.getActor().getDatatype().equals(findFamily(assignment.getExpression())))
 			error("Wrong Family", assignment, ZeimapearePackage.Literals.ASSIGMENT__EXPRESSION);
 			
+	}
+	
+	public boolean checkCondition(Condition condition) {
+		return findFamily(condition.getExp1()).equals(findFamily(condition.getExp2()));
+	}
+	
+	@Check
+	public void checkIfExpression(If ifExpr) {
+		if(!checkCondition(ifExpr.getCondition())){
+			error("Wrong Family condition",ifExpr, ZeimapearePackage.Literals.IF__CONDITION);
+		}
 	}
 	
 //	@Check
