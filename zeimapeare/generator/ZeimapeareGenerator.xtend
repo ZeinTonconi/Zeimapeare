@@ -33,6 +33,7 @@ import zeimapeare.zeimapeare.Instructions
 import zeimapeare.zeimapeare.Operation
 import zeimapeare.zeimapeare.Return
 import zeimapeare.zeimapeare.ActorSceneCall
+import zeimapeare.zeimapeare.ComplexCondition
 
 /**
  * Generates code from your model files on save.
@@ -138,8 +139,17 @@ class ZeimapeareGenerator extends AbstractGenerator {
 		«ENDIF»
 	'''
 	
-	def generateCondition(Condition condition)'''
+	def dispatch generateCondition(Condition condition)'''
 		«generateExpression(condition.exp1)» «generateComparator(condition.comp)»«generateExpression(condition.exp2)»
+	'''
+	def generateBooleanOperator(String op)'''
+		«IF op.equals("and")» &&
+		«ELSE» ||
+		«ENDIF»
+	'''
+	
+	def dispatch generateCondition(ComplexCondition condition)'''
+		«generateCondition(condition.cond1)» «IF condition.op !== null» «generateBooleanOperator(condition.op)»«generateCondition(condition.cond2)»«ENDIF»
 	'''
 	
 	def dispatch generateInstruction(If ifInst)'''

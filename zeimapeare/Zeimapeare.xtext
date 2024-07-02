@@ -160,12 +160,20 @@ ActorSceneCall:
 	'( ' actor=[ActorDeclaration] 'remembered that happened in the' sceneCall=[Scene] ('about ' parameterSceneCall=ParameterSceneCall)? ' )'
 ;
 
+BooleanOperation:
+	('otherwise' | 'and')
+;
+
+ComplexCondition:
+	cond1= Condition ( op=BooleanOperation cond2=ComplexCondition)?
+;
+
 Condition:
 	exp1=Expression 'is ' comp=Comparison 'than' exp2=Expression
 ;
 
 If:
-	'Wordsmith: If' condition=Condition
+	'Wordsmith: If' condition=ComplexCondition
 	(instructions+=Instructions)*
 	'Wordsmith: Will it continue?'
 	else=Else?
@@ -179,7 +187,7 @@ Else:
 
 While:
 	'Wordsmith: To be, or not to be, that is the query'
-	'Whether' condition= Condition 
+	'Whether' condition= ComplexCondition 
 	(instructions+= Instructions)*
 	'Wordsmith: The end?'
 ;
