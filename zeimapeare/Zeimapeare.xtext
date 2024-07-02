@@ -111,12 +111,12 @@ ActorScene:
 //	actor=[ActorDeclaration] ':' AssignmentOP   expression = Expression
 //;
 //
-//AssignmentOP:
-//	'I am' | 'She is' | 'He is' | 'You are'
-//;
+AssignmentOP:
+	subjects=('She is' | 'He is' | 'You are' | 'I am')
+;
 
 Assigment:
-	actor=[ActorDeclaration] ': You are'    expression = Expression
+	actor=[ActorDeclaration] ': ' assignmentOp=AssignmentOP expression = Expression
 ;
 
 Instructions:
