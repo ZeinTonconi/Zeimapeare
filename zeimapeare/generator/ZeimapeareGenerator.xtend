@@ -26,6 +26,10 @@ import zeimapeare.zeimapeare.ValueString
 import zeimapeare.zeimapeare.Condition
 import zeimapeare.zeimapeare.SceneCall
 import zeimapeare.zeimapeare.ParameterSceneCall
+import zeimapeare.zeimapeare.While
+import java.lang.classfile.Instruction
+import java.util.List
+import zeimapeare.zeimapeare.Instructions
 
 /**
  * Generates code from your model files on save.
@@ -43,13 +47,11 @@ class ZeimapeareGenerator extends AbstractGenerator {
 		
 		«initializeActors(p.prologue)»
 		
-		
 		«FOR act: p.acts»
 			«generateSceneFromAct(act)»
 		«ENDFOR»
 		
 		«generateCallFunction(p.prologue.main)»
-		
 	'''
 	
 	def generateSceneFromAct(Act act)'''
@@ -167,10 +169,23 @@ class ZeimapeareGenerator extends AbstractGenerator {
 		«generateCallFunction(call)»
 	'''
 	
+	def generateListInstruction(List<Instructions> instructions)'''
+		«FOR inst: instructions»
+			«generateInstruction(inst)»
+		«ENDFOR»
+	'''
+	
+	def dispatch generateInstruction(While whileInst)'''
+		while(«generateCondition(whileInst.condition)»){
+			«generateListInstruction(whileInst.instructions)»
+		}
+	'''
+	
 	def initializeActors(Prologue prologue)'''
 		«FOR init: prologue.initials»
 			«init.actor.name» = «generateExpression(init.expression)»
 		«ENDFOR»
 	'''
+	
 	
 }

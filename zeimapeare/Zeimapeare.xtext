@@ -108,7 +108,11 @@ ActorScene:
 ;
 
 //Assigment:
-//	actor=[ActorDeclaration] ':' ( 'I am ' | 'She is' | 'He is' | 'You are')  expression = Expression
+//	actor=[ActorDeclaration] ':' AssignmentOP   expression = Expression
+//;
+//
+//AssignmentOP:
+//	'I am' | 'She is' | 'He is' | 'You are'
 //;
 
 Assigment:
@@ -116,7 +120,7 @@ Assigment:
 ;
 
 Instructions:
-	Assigment | Output | If | SceneCall | ActorSceneCall | Return
+	Assigment | Output | If | SceneCall | ActorSceneCall | Return | While
 ;
 
 ValueSustantive:
@@ -141,7 +145,7 @@ Return:
 //TODO: Preguntar a Alexis
 // Sin los espacios no sirve :(
 Comparison:
-	'better ' | 'worse' | 'better or equal' | 'worse or equal'
+	('better' | 'worse') ('or equal')?
 ;
 
 ParameterSceneCall:
@@ -153,7 +157,7 @@ SceneCall:
 ;
 
 ActorSceneCall returns SceneCall:
-	'(' actor+=[ActorDeclaration] 'remembered that happened in the' sceneCall=[Scene] ('about ' parameterSceneCall=ParameterSceneCall)? ')'
+	'( ' actor+=[ActorDeclaration] 'remembered that happened in the' sceneCall=[Scene] ('about ' parameterSceneCall=ParameterSceneCall)? ' )'
 ;
 
 Condition:
@@ -173,7 +177,10 @@ Else:
 	'Wordsmith: Will it continue?'
 ;
 
-//While:
-//	'Narrator: To be, or not to be, that is the query'
-//	'Whether 'actor=[ActorDeclaration] 
-//;
+While:
+	'Wordsmith: To be, or not to be, that is the query'
+	'Whether' condition= Condition 
+	(instructions+= Instructions)*
+	'Wordsmith: The end?'
+;
+
