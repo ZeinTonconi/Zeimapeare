@@ -30,6 +30,7 @@ import zeimapeare.zeimapeare.While
 import java.lang.classfile.Instruction
 import java.util.List
 import zeimapeare.zeimapeare.Instructions
+import zeimapeare.zeimapeare.Operation
 
 /**
  * Generates code from your model files on save.
@@ -74,12 +75,18 @@ class ZeimapeareGenerator extends AbstractGenerator {
 		}
 	'''
 	
-	def dispatch generateExpression(ComplexIntExpression expression)'''
-		«IF expression.operation.equals("the love")»
-			«generateExpression(expression.exp1)» + «generateExpression(expression.exp2)»
-		«ELSE»
-			«generateExpression(expression.exp1)» - «generateExpression(expression.exp2)»
+	def generateIntOperation(Operation op)'''
+		«IF op.operations.equals("the love")» +
+		«ELSEIF op.operations.equals("the hostility")» -
+		«ELSEIF op.operations.equals("the abundance")» *
+		«ELSEIF op.operations.equals("the dismemberment")» /
+		«ELSEIF op.operations.equals("the leftovers")» %
 		«ENDIF»
+	'''
+	
+	def dispatch generateExpression(ComplexIntExpression expression)'''
+		(«generateExpression(expression.exp1)»«generateIntOperation(expression.operation)»«generateExpression(expression.exp2)»)
+		
 	'''
 	
 	def dispatch generateExpression(ComplexStringExpression expr)'''
