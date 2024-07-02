@@ -21,6 +21,8 @@ Prologue:
 	actors += ActorDeclaration'.'
 
 	initials+=InitialAssigment*
+	
+	main=SceneCall
 ;
 
 ActorDeclaration: 
@@ -44,12 +46,13 @@ ActorExpression:
 	actor= [ActorDeclaration]
 ;
 
+//Sin el espacio no funciona
 ComplexIntExpression:
-	(operation= Operation 'of' exp1=IntExpression 'and' exp2=IntExpression)
+	(operation= Operation 'of ' exp1=Expression 'and' exp2=Expression)
 ;
 
 IntExpression:
-	ComplexIntExpression | Value | ActorExpression
+	ComplexIntExpression | Value 
 ;
 
 Number:
@@ -60,8 +63,20 @@ Value:
 	Number | ValueSustantive
 ;
 
+ComplexStringExpression:
+	'the embrance of' exp1=Expression 'and' exp2=Expression
+;
+
+ValueString:
+	value=STRING
+;
+
+StringExpression:
+	ComplexStringExpression | ValueString
+;
+
 Expression:
-	IntExpression
+	IntExpression | StringExpression | ActorExpression
 ;
 
 RomanNumber:
@@ -85,11 +100,10 @@ Scene:
 	'Scene' romanNumber=RomanNumber ':' name = STRING
 	actorScene=ActorScene
 	(instructions+=Instructions)*
-	(sceneCall+=SceneCall)*
 ;
 
 ActorScene:
-	(actors+= ActorParameter)*
+	{ActorScene} (actors+= ActorParameter)*
 	(actorsExtra+= ActorExtraParameter)*
 ;
 
@@ -102,7 +116,7 @@ Assigment:
 ;
 
 Instructions:
-	Assigment | Output | If | Return
+	Assigment | Output | If | SceneCall | ActorSceneCall | Return
 ;
 
 ValueSustantive:
@@ -122,7 +136,7 @@ Output:
 ;
 
 Return:
-	actor=[ActorDeclaration]': I come back'
+	actor=[ActorDeclaration]': I will come back'
 ;
 //TODO: Preguntar a Alexis
 // Sin los espacios no sirve :(
@@ -138,8 +152,16 @@ SceneCall:
 	'Wordsmith: We need to remember the ' sceneCall=[Scene] ('of ' parameterSceneCall=ParameterSceneCall)? '.'
 ;
 
+ActorSceneCall returns SceneCall:
+	'(' actor+=[ActorDeclaration] 'remembered that happened in the' sceneCall=[Scene] ('about ' parameterSceneCall=ParameterSceneCall)? ')'
+;
+
+Condition:
+	exp1=Expression 'is ' comp=Comparison 'than' exp2=Expression
+;
+
 If:
-	'Wordsmith: If' exp1=Expression 'is ' comp=Comparison 'than' exp2=Expression
+	'Wordsmith: If' condition=Condition
 	(instructions+=Instructions)*
 	'Wordsmith: Will it continue?'
 	else=Else?

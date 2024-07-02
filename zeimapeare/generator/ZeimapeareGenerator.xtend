@@ -21,6 +21,11 @@ import zeimapeare.zeimapeare.Act
 import zeimapeare.zeimapeare.Scene
 import zeimapeare.zeimapeare.If
 import zeimapeare.zeimapeare.ActorScene
+import zeimapeare.zeimapeare.ComplexStringExpression
+import zeimapeare.zeimapeare.ValueString
+import zeimapeare.zeimapeare.Condition
+import zeimapeare.zeimapeare.SceneCall
+import zeimapeare.zeimapeare.ParameterSceneCall
 
 /**
  * Generates code from your model files on save.
@@ -35,36 +40,32 @@ class ZeimapeareGenerator extends AbstractGenerator {
 	}
 	
 	def generateProgram(Program p)'''
-		function initialize(){
-			«generateMain(p.prologue)»
-		}
+		
+		«initializeActors(p.prologue)»
+		
 		
 		«FOR act: p.acts»
 			«generateSceneFromAct(act)»
 		«ENDFOR»
 		
-		initialize()
-		actISceneI();
+		«generateCallFunction(p.prologue.main)»
 		
 	'''
 	
 	def generateSceneFromAct(Act act)'''
 		«FOR scene: act.scene»
-			function act«act.romanNumber.romanNumber»«generateFunctionFromScene(scene)»
+			«generateFunctionFromScene(scene)»
 		«ENDFOR»
 	'''
 	
 	def generateParams(ActorScene actors)'''
-		«FOR actor: actors.actors»
-			«actor.name.name», 
-		«ENDFOR»
 		«FOR actor: actors.actorsExtra»
 			«actor.name», 
 		«ENDFOR»
 	'''
 	
 	def generateFunctionFromScene(Scene scene)'''
-		Scene«scene.romanNumber.romanNumber»(«generateParams(scene.actorScene)»){
+		function scene«scene.romanNumber.romanNumber»«scene.name»(«generateParams(scene.actorScene)»){
 			«FOR instruction: scene.instructions»
 				 «generateInstruction(instruction)»
 			«ENDFOR»
@@ -89,6 +90,10 @@ class ZeimapeareGenerator extends AbstractGenerator {
 		«ENDIF»
 	'''
 	
+	def dispatch generateExpression(ComplexStringExpression expr)'''
+		«generateExpression(expr.exp1)» + «generateExpression(expr.exp2)»
+	'''	
+	
 	def dispatch generateExpression(Number number)'''
 		«number.number»
 	'''
@@ -103,6 +108,10 @@ class ZeimapeareGenerator extends AbstractGenerator {
 
 	def dispatch generateExpression(ValueSustantive valueSustantive)'''
 		«calculateValue(valueSustantive)»
+	'''
+	
+	def dispatch generateExpression(ValueString value)'''
+		"«value.value»"
 	'''
 	
 	def dispatch generateExpression(ActorExpression actor) '''
@@ -120,14 +129,18 @@ class ZeimapeareGenerator extends AbstractGenerator {
 		console.log(«output.actor.name»)
 	'''
 	
-	def generateCondition(String comp)'''
+	def generateComparator(String comp)'''
 		«IF comp.equals("better")» >
 		«ELSE» <
 		«ENDIF»
 	'''
 	
+	def generateCondition(Condition condition)'''
+		«generateExpression(condition.exp1)» «generateComparator(condition.comp)»«generateExpression(condition.exp2)»
+	'''
+	
 	def dispatch generateInstruction(If ifInst)'''
-		if(«generateExpression(ifInst.exp1)»«generateCondition(ifInst.comp)»«generateExpression(ifInst.exp2)»){
+		if(«generateCondition(ifInst.condition)»){
 			«FOR inst: ifInst.instructions»
 				«generateInstruction(inst)»
 			«ENDFOR»
@@ -138,7 +151,23 @@ class ZeimapeareGenerator extends AbstractGenerator {
 		}
 	'''
 	
-	def generateMain(Prologue prologue)'''
+	def generateArguments(ParameterSceneCall args)'''
+		«IF args!=null»
+			«FOR extra: args.actorsExtra»
+				«extra.name»,
+			«ENDFOR»
+		«ENDIF»
+	'''
+	
+	def generateCallFunction(SceneCall call)'''
+		scene«call.sceneCall.romanNumber.romanNumber»«call.sceneCall.name»(«generateArguments(call.parameterSceneCall)»)
+	'''
+	
+	def dispatch generateInstruction(SceneCall call)'''
+		«generateCallFunction(call)»
+	'''
+	
+	def initializeActors(Prologue prologue)'''
 		«FOR init: prologue.initials»
 			«init.actor.name» = «generateExpression(init.expression)»
 		«ENDFOR»
