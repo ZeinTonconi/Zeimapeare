@@ -112,7 +112,7 @@ ActorScene:
 //;
 //
 AssignmentOP:
-	subjects=('She is' | 'He is' | 'You are' | 'I am')
+	subjects=('She is' | 'He is' | 'You are')
 ;
 
 Assigment:
