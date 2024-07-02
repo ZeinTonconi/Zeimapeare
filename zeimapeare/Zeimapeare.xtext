@@ -102,7 +102,7 @@ Assigment:
 ;
 
 Instructions:
-	Assigment | Output | If
+	Assigment | Output | If | Return
 ;
 
 ValueSustantive:
@@ -121,6 +121,9 @@ Output:
 	actor=[ActorDeclaration]': Gossip about your secrets'
 ;
 
+Return:
+	actor=[ActorDeclaration]': I come back'
+;
 //TODO: Preguntar a Alexis
 // Sin los espacios no sirve :(
 Comparison:

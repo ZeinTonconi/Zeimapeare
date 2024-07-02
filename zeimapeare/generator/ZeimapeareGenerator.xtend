@@ -74,8 +74,18 @@ class ZeimapeareGenerator extends AbstractGenerator {
 	def dispatch generateExpression(ComplexIntExpression expression)'''
 		«IF expression.operation.equals("the love")»
 			«generateExpression(expression.exp1)» + «generateExpression(expression.exp2)»
-		«ELSE»
+		«ELSEIF expression.operation.equals("the hostility")»
 			«generateExpression(expression.exp1)» - «generateExpression(expression.exp2)»
+		«ELSEIF expression.operation.equals("the dismemberment")»
+			«generateExpression(expression.exp1)» / «generateExpression(expression.exp2)»
+		«ELSEIF expression.operation.equals("the leftovers")»
+			«generateExpression(expression.exp1)» % «generateExpression(expression.exp2)»
+		«ELSEIF expression.operation.equals("M-m-maybe next time...")»
+			«generateExpression(expression.exp1)» && «generateExpression(expression.exp2)»
+		«ELSEIF expression.operation.equals("or")»
+			«generateExpression(expression.exp1)» || «generateExpression(expression.exp2)»
+		«ELSEIF expression.operation.equals("inmensity")»
+				«generateExpression(expression.exp1)».lengt
 		«ENDIF»
 	'''
 	
