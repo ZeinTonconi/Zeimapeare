@@ -14,6 +14,7 @@ import zeimapeare.zeimapeare.Condition;
 import zeimapeare.zeimapeare.Expression;
 import zeimapeare.zeimapeare.If;
 import zeimapeare.zeimapeare.IntExpression;
+import zeimapeare.zeimapeare.Scene;
 import zeimapeare.zeimapeare.SceneCall;
 import zeimapeare.zeimapeare.StringExpression;
 import zeimapeare.zeimapeare.Value;
@@ -126,7 +127,7 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 			error("Wrong Family", assignment, ZeimapearePackage.Literals.ASSIGMENT__EXPRESSION);
 			
 	}
-	
+
 	public boolean checkCondition(Condition condition) {
 		return findFamily(condition.getExp1()).equals(findFamily(condition.getExp2()));
 	}
@@ -138,9 +139,18 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 		}
 	}
 	
-//	@Check
-//	public void checkParametersOfCallScene(SceneCall sceneCall) {
-//		if(sceneCall.getActorScene().getActors() && sceneCall.getActorScene().getActorsExtra() != sceneCall.get )
-//	}
-
+	@Check
+	public void checkParametersOfCallScene(SceneCall sceneCall) {
+		Scene scene = sceneCall.getSceneCall();
+		int sizeOfActorSceneCall = 0;
+		if(sceneCall.getParameterSceneCall() != null) {
+			sizeOfActorSceneCall = sceneCall.getParameterSceneCall().getActorsExtra().size();
+		}
+		
+		if(sizeOfActorSceneCall > scene.getActorScene().getActorsExtra().size())
+			error("There are impostors on the scene", sceneCall, ZeimapearePackage.Literals.SCENE_CALL__PARAMETER_SCENE_CALL);
+		
+		if(sizeOfActorSceneCall < scene.getActorScene().getActorsExtra().size())
+			error("You killed actors without God's permission", sceneCall, ZeimapearePackage.Literals.SCENE_CALL__PARAMETER_SCENE_CALL);
+	}
 }
