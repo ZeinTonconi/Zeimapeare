@@ -120,7 +120,7 @@ Assigment:
 ;
 
 Instructions:
-	Assigment | Output | If | SceneCall | While
+	Assigment | Output | If | SceneCall | ActorSceneCall | Return | While
 ;
 
 ValueSustantive:
@@ -139,10 +139,13 @@ Output:
 	actor=[ActorDeclaration]': Gossip about your secrets'
 ;
 
+Return:
+	actor=[ActorDeclaration]': I will come back'
+;
 //TODO: Preguntar a Alexis
 // Sin los espacios no sirve :(
 Comparison:
-	'better ' | 'worse' | 'better or equal' | 'worse or equal'
+	('better' | 'worse') ('or equal')?
 ;
 
 ParameterSceneCall:
@@ -151,6 +154,10 @@ ParameterSceneCall:
 
 SceneCall:
 	'Wordsmith: We need to remember the ' sceneCall=[Scene] ('of ' parameterSceneCall=ParameterSceneCall)? '.'
+;
+
+ActorSceneCall returns SceneCall:
+	'( ' actor+=[ActorDeclaration] 'remembered that happened in the' sceneCall=[Scene] ('about ' parameterSceneCall=ParameterSceneCall)? ' )'
 ;
 
 Condition:
@@ -171,7 +178,7 @@ Else:
 ;
 
 While:
-	'Narrator: To be, or not to be, that is the query'
+	'Wordsmith: To be, or not to be, that is the query'
 	'Whether' condition= Condition 
 	(instructions+= Instructions)*
 	'Wordsmith: The end?'

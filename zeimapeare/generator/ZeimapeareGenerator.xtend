@@ -74,7 +74,7 @@ class ZeimapeareGenerator extends AbstractGenerator {
 			«ENDFOR»
 		}
 	'''
-	
+
 	def generateIntOperation(Operation op)'''
 		«IF op.operations.equals("the love")» +
 		«ELSEIF op.operations.equals("the hostility")» -
