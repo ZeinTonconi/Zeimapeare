@@ -157,7 +157,7 @@ SceneCall:
 ;
 
 ActorSceneCall:
-	'( ' actor+=[ActorDeclaration] 'remembered that happened in the' sceneCall=[Scene] ('about ' parameterSceneCall=ParameterSceneCall)? ' )'
+	'( ' actor=[ActorDeclaration] 'remembered that happened in the' sceneCall=[Scene] ('about ' parameterSceneCall=ParameterSceneCall)? ' )'
 ;
 
 Condition:

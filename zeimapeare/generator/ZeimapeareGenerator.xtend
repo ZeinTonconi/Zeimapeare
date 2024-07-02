@@ -31,6 +31,8 @@ import java.lang.classfile.Instruction
 import java.util.List
 import zeimapeare.zeimapeare.Instructions
 import zeimapeare.zeimapeare.Operation
+import zeimapeare.zeimapeare.Return
+import zeimapeare.zeimapeare.ActorSceneCall
 
 /**
  * Generates code from your model files on save.
@@ -168,6 +170,10 @@ class ZeimapeareGenerator extends AbstractGenerator {
 		«generateCallFunction(call)»
 	'''
 	
+	def dispatch generateInstruction(ActorSceneCall actorSceneCall)'''
+		«actorSceneCall.actor.name» = scene«actorSceneCall.sceneCall.romanNumber.romanNumber»«actorSceneCall.sceneCall.name»(«generateArguments(actorSceneCall.parameterSceneCall)»)
+	'''
+	
 	def generateListInstruction(List<Instructions> instructions)'''
 		«FOR inst: instructions»
 			«generateInstruction(inst)»
@@ -178,6 +184,10 @@ class ZeimapeareGenerator extends AbstractGenerator {
 		while(«generateCondition(whileInst.condition)»){
 			«generateListInstruction(whileInst.instructions)»
 		}
+	'''
+	
+	def dispatch generateInstruction(Return returnInstr)'''
+		return «returnInstr.actor.name»
 	'''
 	
 	def initializeActors(Prologue prologue)'''
