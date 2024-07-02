@@ -3,17 +3,22 @@
  */
 package zeimapeare.validation;
 
+import java.util.List;
+
 import org.eclipse.xtext.validation.Check;
 
 import zeimapeare.zeimapeare.ActorDeclaration;
 import zeimapeare.zeimapeare.ActorExpression;
 import zeimapeare.zeimapeare.Assigment;
+import zeimapeare.zeimapeare.ComplexCondition;
 import zeimapeare.zeimapeare.ComplexIntExpression;
 import zeimapeare.zeimapeare.ComplexStringExpression;
 import zeimapeare.zeimapeare.Condition;
 import zeimapeare.zeimapeare.Expression;
 import zeimapeare.zeimapeare.If;
 import zeimapeare.zeimapeare.IntExpression;
+import zeimapeare.zeimapeare.ParameterSceneCall;
+import zeimapeare.zeimapeare.Return;
 import zeimapeare.zeimapeare.Scene;
 import zeimapeare.zeimapeare.SceneCall;
 import zeimapeare.zeimapeare.StringExpression;
@@ -123,8 +128,14 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 			
 	}
 
-	public boolean checkCondition(Condition condition) {
-		return findFamily(condition.getExp1()).equals(findFamily(condition.getExp2()));
+	public boolean checkCondition(ComplexCondition condition) {
+		String family = findFamily(condition.getCond1().getExp1());
+		if(!family.equals(findFamily(condition.getCond1().getExp2())))
+			return false;
+		if(condition.getCond2() == null)
+			return true;
+		else
+			return checkCondition(condition.getCond2());
 	}
 	
 	@Check
@@ -148,4 +159,16 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 		if(sizeOfActorSceneCall < scene.getActorScene().getActorsExtra().size())
 			error("You killed actors without God's permission", sceneCall, ZeimapearePackage.Literals.SCENE_CALL__PARAMETER_SCENE_CALL);
 	}
+	
+	@Check
+	public void checkTypeOfParametersSceneCall(ActorSceneCall actorSceneCall) {
+		List<ActorDeclaration> arguments = actorSceneCall.getParameterSceneCall().getActorsExtra();
+		List<ActorDeclaration> parameters = actorSceneCall.getSceneCall().getActorScene().getActorsExtra();
+		for(int i=0;i<arguments.size();i++) {
+			if(!arguments.get(i).getDatatype().equals(parameters.get(i).getDatatype()))
+				error("The love between these actor is forbidden", actorSceneCall, ZeimapearePackage.Literals.ACTOR_SCENE_CALL__PARAMETER_SCENE_CALL);
+		}
+		
+	}
+	
 }
