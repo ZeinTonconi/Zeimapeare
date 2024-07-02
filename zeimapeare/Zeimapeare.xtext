@@ -156,7 +156,7 @@ SceneCall:
 	'Wordsmith: We need to remember the ' sceneCall=[Scene] ('of ' parameterSceneCall=ParameterSceneCall)? '.'
 ;
 
-ActorSceneCall returns SceneCall:
+ActorSceneCall:
 	'( ' actor+=[ActorDeclaration] 'remembered that happened in the' sceneCall=[Scene] ('about ' parameterSceneCall=ParameterSceneCall)? ' )'
 ;
 
