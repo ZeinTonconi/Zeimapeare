@@ -3,6 +3,7 @@
  */
 package zeimapeare.validation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.xtext.validation.Check;
@@ -151,17 +152,26 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 		
 	}
 	
-	public boolean findActorOnStage(ActorDeclaration actor, List<ActorParameter> actorsOnStage) {
-		for(ActorParameter actorOnStage: actorsOnStage) {
-			if(actor.getName().equals(actorOnStage.getName().getName()))
+	public boolean findActorOnStage(ActorDeclaration actor, List<String> actorsOnStage) {
+		for(String actorOnStage: actorsOnStage) {
+			if(actor.getName().equals(actorOnStage))
 				return true;
 		}
 		return false;
 	}
 	
+	
 	@Check
 	public void checkActorOnStage(Scene scene) {
-		List<ActorParameter> actorsOnStage = scene.getActorScene().getActors(); 
+	
+		List<String> actorsOnStage =  new ArrayList<>();
+		for(ActorParameter actor: scene.getActorScene().getActors()) {
+			actorsOnStage.add(actor.getName().getName());
+		}
+		for(ActorDeclaration actor: scene.getActorScene().getActorsExtra()) {
+			actorsOnStage.add(actor.getName());
+		}
+		
 		for(Instructions instruction: scene.getInstructions()) {
 			if(instruction instanceof Assigment) {
 				ActorDeclaration actor = ((Assigment)instruction).getActor();
