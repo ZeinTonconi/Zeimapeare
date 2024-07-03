@@ -209,7 +209,7 @@ BooleanOperation:
 ;
 
 Comparison:
-	('better' | 'worse') ('or equal')?
+	(('better' | 'worse') ('or equal')?) | 'equal' | 'different'
 ;
 
 Else:

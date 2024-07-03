@@ -136,6 +136,8 @@ class ZeimapeareGenerator extends AbstractGenerator {
 		«ELSEIF comp.equals("worse")» <
 		«ELSEIF comp.equals("better or equal")» >=
 		«ELSEIF comp.equals("worse or equal")» <=
+		«ELSEIF comp.equals("equal")» ===
+		«ELSEIF comp.equals("different")» !==
 		«ENDIF»
 	'''
 	
