@@ -89,7 +89,7 @@ Act:
 ;
 
 DataType:
-	('Capulet' | 'Montague' | 'Slave')
+	('Capulet' | 'Montague')
 ;
 
 ActorParameter:
@@ -97,7 +97,7 @@ ActorParameter:
 ;
 
 Scene:
-	'Scene' romanNumber=RomanNumber ':' name = STRING
+	'Scene' romanNumber=RomanNumber ':' name = ID
 	actorScene=ActorScene
 	(instructions+=Instructions)*
 ;
@@ -107,10 +107,6 @@ ActorScene:
 	(actorsExtra+= ActorExtraParameter)*
 ;
 
-//Assigment:
-//	actor=[ActorDeclaration] ':' AssignmentOP   expression = Expression
-//;
-//
 AssignmentOP:
 	subjects=('She is' | 'He is' | 'You are')
 ;
@@ -123,16 +119,24 @@ Instructions:
 	Assigment | Output | If | SceneCall | ActorSceneCall | Return | While
 ;
 
+ListOfAdjectives:
+	('dramatic' | 'poetic' | 'romantic' | 'tragic' | 'majestic' | 'magical' | 'lyrical')
+;
+
+ListOfSustantives:
+	('ambition' | 'honor' | 'deception' | 'power' | 'destiny' | 'fortune' | 'sacrifice' | 'justice')
+;
+
 ValueSustantive:
 	'a' adj=Adjective? sustantive=Sustantive 
 ;
 
 Sustantive:
-	sustantive= (STRING | 'nothing')
+	sustantive= (ListOfSustantives | 'nothing')
 ;
 
 Adjective:
-	adjectives+=('good')(',' adjectives+=('good'))*
+	adjectives+=(ListOfAdjectives)(',' adjectives+=(ListOfAdjectives))*
 ;
 
 Output:
@@ -142,8 +146,7 @@ Output:
 Return:
 	actor=[ActorDeclaration]': I will come back'
 ;
-//TODO: Preguntar a Alexis
-// Sin los espacios no sirve :(
+
 Comparison:
 	('better' | 'worse') ('or equal')?
 ;

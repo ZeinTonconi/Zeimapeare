@@ -34,27 +34,6 @@ import zeimapeare.zeimapeare.ZeimapearePackage;
  */
 public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 	
-//	public static final String INVALID_NAME = "invalidName";
-//
-//	@Check
-//	public void checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.getName().charAt(0))) {
-//			warning("Name should start with a capital",
-//					ZeimapearePackage.Literals.GREETING__NAME,
-//					INVALID_NAME);
-//		}
-//	}
-//	@Check
-//	public void checkActorInIntExpression(IntExpression intExpr) {
-//		if(intExpr instanceof ActorExpression) {
-//			ActorExpression actor = (ActorExpression) intExpr;
-//			if(actor.getActor().getDatatype().equals("Capulet"))
-//				error("Wrong Family",
-//						ZeimapearePackage.Literals.ACTOR_DECLARATION__DATATYPE,
-//						"Mismatch family");
-//		}
-//	}
-	
 	public String findFamily(ComplexStringExpression complex) {
 		String family1=findFamily(complex.getExp1());
 		String family2=findFamily(complex.getExp2());

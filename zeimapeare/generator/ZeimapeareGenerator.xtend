@@ -155,9 +155,9 @@ class ZeimapeareGenerator extends AbstractGenerator {
 	def dispatch generateInstruction(If ifInst)'''
 		if(«generateCondition(ifInst.condition)»){
 			«generateListInstruction(ifInst.instructions)»
-		} else{
+		}«IF ifInst.^else !== null» else{
 			«generateListInstruction(ifInst.^else.instructions)»
-		}
+		}«ENDIF»
 	'''
 	
 	def generateArguments(ParameterSceneCall args)'''
@@ -203,6 +203,4 @@ class ZeimapeareGenerator extends AbstractGenerator {
 			«init.actor.name» = «generateExpression(init.expression)»
 		«ENDFOR»
 	'''
-	
-	
 }
