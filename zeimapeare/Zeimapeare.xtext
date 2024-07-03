@@ -14,6 +14,8 @@ TitleOfScript:
 	name=ID
 ;
 
+//Main()
+
 Prologue:
 	'PROLOGUE'
 	'Wordsmith: Welcome to the theater, lets give an applause to our cast' 
@@ -25,6 +27,8 @@ Prologue:
 	main=SceneCall
 ;
 
+//Declaration of variables
+
 ActorDeclaration: 
 	name=ID 'is a member of' datatype = DataType 'family'
 ;
@@ -33,97 +37,52 @@ ActorExtraParameter returns ActorDeclaration:
 	'[Enter' name=ID 'from' datatype = DataType 'family]'
 ;
 
-InitialAssigment returns Assigment:
-	actor=[ActorDeclaration] ': I am' expression = Expression
-;
-
-Operation:
-	operations=('the love' | 'the hostility' | 'the abundance' | 'the dismemberment' | 'the leftovers')
-;
-
-
-ActorExpression:
-	actor= [ActorDeclaration]
-;
-
-ComplexIntExpression:
-	(operation= Operation 'of ' exp1=Expression 'and' exp2=Expression)
-;
-
-IntExpression:
-	ComplexIntExpression | Value 
-;
-
-Number:
-	number=INT
-;
-
-Value:
-	Number | ValueSustantive
-;
-
-ComplexStringExpression:
-	'merge or dreams' exp1=Expression 'and' exp2=Expression
-;
-
-ValueString:
-	value=STRING
-;
-
-StringExpression:
-	ComplexStringExpression | ValueString
-;
-
-Expression:
-	IntExpression | StringExpression | ActorExpression
-;
-
-RomanNumber:
-     romanNumber= ('I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII' | 'IX' | 'X')
-;
-
-Act:
-	'ACT' romanNumber=RomanNumber
-	(scene+=Scene)+
-;
+//Data types
 
 DataType:
 	('Capulet' | 'Montague')
 ;
 
-ActorParameter:
-	'[Enter' name=[ActorDeclaration]']'
-;
+//Assignment of variables
 
-Scene:
-	'Scene' romanNumber=RomanNumber ': ' name = ID
-	actorScene=ActorScene
-	(instructions+=Instructions)*
-;
-
-ActorScene:
-	{ActorScene} (actors+= ActorParameter)*
-	(actorsExtra+= ActorExtraParameter)*
+Assigment:
+	actor=[ActorDeclaration] ': ' assignmentOp=AssignmentOP expression = Expression
 ;
 
 AssignmentOP:
 	subjects=('She is' | 'He is' | 'You are')
 ;
 
-Assigment:
-	actor=[ActorDeclaration] ': ' assignmentOp=AssignmentOP expression = Expression
+InitialAssigment returns Assigment:
+	actor=[ActorDeclaration] ': I am' expression = Expression
 ;
 
-Instructions:
-	Assigment | Output | If | SceneCall | ActorSceneCall | Return | While
+//Expression
+
+Expression:
+	IntExpression | StringExpression | ActorExpression
 ;
 
-ListOfAdjectives:
-	('dramatic' | 'poetic' | 'romantic' | 'tragic' | 'majestic' | 'magical' | 'lyrical')
+//INT Expressions and operations
+
+IntExpression:
+	ComplexIntExpression | Value 
 ;
 
-ListOfSustantives:
-	('ambition' | 'honor' | 'deception' | 'power' | 'destiny' | 'fortune' | 'sacrifice' | 'justice')
+ComplexIntExpression:
+	(operation= Operation 'of ' exp1=Expression 'and' exp2=Expression)
+;
+
+Operation:
+	operations=('the love' | 'the hostility' | 'the abundance' | 'the dismemberment' | 'the leftovers')
+;
+
+Value:
+	Number | ValueSustantive
+;
+
+Number:
+	number=INT
 ;
 
 ValueSustantive:
@@ -134,25 +93,39 @@ Sustantive:
 	sustantive= (ListOfSustantives | 'nothing')
 ;
 
+ListOfSustantives:
+	('ambition' | 'honor' | 'deception' | 'power' | 'destiny' | 'fortune' | 'sacrifice' | 'justice')
+;
+
 Adjective:
 	adjectives+=(ListOfAdjectives)(',' adjectives+=(ListOfAdjectives))*
 ;
 
-Output:
-	actor=[ActorDeclaration]': Gossip about your secrets'
+ListOfAdjectives:
+	('dramatic' | 'poetic' | 'romantic' | 'tragic' | 'majestic' | 'magical' | 'lyrical')
 ;
 
-Return:
-	actor=[ActorDeclaration]': I will come back'
+//STRING Expressions and operators
+
+StringExpression:
+	ComplexStringExpression | ValueString
 ;
 
-Comparison:
-	('better' | 'worse') ('or equal')?
+ComplexStringExpression:
+	'merge or dreams' exp1=Expression 'and' exp2=Expression
 ;
 
-ParameterSceneCall:
-	(actorsExtra+=([ActorDeclaration])(', ' actorsExtra+=[ActorDeclaration])*)
+ValueString:
+	value=STRING
 ;
+
+//Actor Expression
+
+ActorExpression:
+	actor= [ActorDeclaration]
+;
+
+//Function calls
 
 SceneCall:
 	'Wordsmith: We need to remember the ' sceneCall=[Scene] ('of ' parameterSceneCall=ParameterSceneCall)? '.'
@@ -162,8 +135,65 @@ ActorSceneCall:
 	'( ' actor=[ActorDeclaration] 'remembered that happened in the' sceneCall=[Scene] ('about ' parameterSceneCall=ParameterSceneCall)? ' )'
 ;
 
-BooleanOperation:
-	('otherwise' | 'M-m-maybe next time...')
+ParameterSceneCall:
+	(actorsExtra+=([ActorDeclaration])(', ' actorsExtra+=[ActorDeclaration])*)
+;
+
+//Act
+
+Act:
+	'ACT' romanNumber=RomanNumber
+	(scene+=Scene)+
+;
+
+//Functions
+
+Scene:
+	'Scene' romanNumber=RomanNumber ': ' name = ID
+	actorScene=ActorScene
+	(instructions+=Instructions)*
+;
+
+RomanNumber:
+     romanNumber=('I' | 'II' | 'III' | 'IV' | 'V' | 'VI' | 'VII' | 'VIII' | 'IX' | 'X')
+;
+
+//Parameters of functions
+
+ActorScene:
+	{ActorScene} (actors+= ActorParameter)*
+	(actorsExtra+= ActorExtraParameter)*
+;
+
+ActorParameter:
+	'[Enter' name=[ActorDeclaration]']'
+;
+
+//Instructions
+
+Instructions:
+	Assigment | Output | If | SceneCall | ActorSceneCall | Return | While
+;
+
+//Console.log
+
+Output:
+	actor=[ActorDeclaration]': Gossip about your secrets'
+;
+
+//Return
+
+Return:
+	actor=[ActorDeclaration]': I will come back'
+;
+
+//If
+
+If:
+	'Wordsmith: If' condition=ComplexCondition
+	(instructions+=Instructions)*
+	'Wordsmith: Will it continue?'
+	else=Else?
 ;
 
 ComplexCondition:
@@ -174,11 +204,12 @@ Condition:
 	exp1=Expression 'is ' comp=Comparison 'than' exp2=Expression
 ;
 
-If:
-	'Wordsmith: If' condition=ComplexCondition
-	(instructions+=Instructions)*
-	'Wordsmith: Will it continue?'
-	else=Else?
+BooleanOperation:
+	('otherwise' | 'M-m-maybe next time...')
+;
+
+Comparison:
+	('better' | 'worse') ('or equal')?
 ;
 
 Else:
@@ -186,6 +217,8 @@ Else:
 	(instructions+=Instructions)*
 	'Wordsmith: Will it continue?'
 ;
+
+//While
 
 While:
 	'Wordsmith: To be, or not to be, that is the query'
