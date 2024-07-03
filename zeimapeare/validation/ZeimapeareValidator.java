@@ -9,17 +9,17 @@ import org.eclipse.xtext.validation.Check;
 
 import zeimapeare.zeimapeare.ActorDeclaration;
 import zeimapeare.zeimapeare.ActorExpression;
+import zeimapeare.zeimapeare.ActorParameter;
 import zeimapeare.zeimapeare.ActorSceneCall;
 import zeimapeare.zeimapeare.Assigment;
 import zeimapeare.zeimapeare.ComplexCondition;
 import zeimapeare.zeimapeare.ComplexIntExpression;
 import zeimapeare.zeimapeare.ComplexStringExpression;
-import zeimapeare.zeimapeare.Condition;
 import zeimapeare.zeimapeare.Expression;
 import zeimapeare.zeimapeare.If;
+import zeimapeare.zeimapeare.Instructions;
 import zeimapeare.zeimapeare.IntExpression;
-import zeimapeare.zeimapeare.ParameterSceneCall;
-import zeimapeare.zeimapeare.Return;
+import zeimapeare.zeimapeare.Output;
 import zeimapeare.zeimapeare.Scene;
 import zeimapeare.zeimapeare.SceneCall;
 import zeimapeare.zeimapeare.StringExpression;
@@ -149,6 +149,37 @@ public class ZeimapeareValidator extends AbstractZeimapeareValidator {
 				error("The love between these actor is forbidden", actorSceneCall, ZeimapearePackage.Literals.ACTOR_SCENE_CALL__PARAMETER_SCENE_CALL);
 		}
 		
+	}
+	
+	public boolean findActorOnStage(ActorDeclaration actor, List<ActorParameter> actorsOnStage) {
+		for(ActorParameter actorOnStage: actorsOnStage) {
+			if(actor.getName().equals(actorOnStage.getName().getName()))
+				return true;
+		}
+		return false;
+	}
+	
+	@Check
+	public void checkActorOnStage(Scene scene) {
+		List<ActorParameter> actorsOnStage = scene.getActorScene().getActors(); 
+		for(Instructions instruction: scene.getInstructions()) {
+			if(instruction instanceof Assigment) {
+				ActorDeclaration actor = ((Assigment)instruction).getActor();
+				if(!findActorOnStage(actor, actorsOnStage))
+					error("The actor is on vacations", instruction, ZeimapearePackage.Literals.ASSIGMENT__ACTOR);
+			}
+			
+			if(instruction instanceof ActorSceneCall) {
+				ActorDeclaration actor = ((ActorSceneCall)instruction).getActor();
+				if(!findActorOnStage(actor, actorsOnStage))
+					error("The actor is on vacations", instruction, ZeimapearePackage.Literals.ASSIGMENT__ACTOR);
+			}
+			if(instruction instanceof Output) {
+				ActorDeclaration actor = ((Output)instruction).getActor();
+				if(!findActorOnStage(actor, actorsOnStage))
+					error("The actor is on vacations", instruction, ZeimapearePackage.Literals.ASSIGMENT__ACTOR);
+			}
+		}
 	}
 	
 }

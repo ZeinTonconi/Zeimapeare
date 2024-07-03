@@ -46,7 +46,6 @@ ActorExpression:
 	actor= [ActorDeclaration]
 ;
 
-//Sin el espacio no funciona
 ComplexIntExpression:
 	(operation= Operation 'of ' exp1=Expression 'and' exp2=Expression)
 ;
@@ -97,7 +96,7 @@ ActorParameter:
 ;
 
 Scene:
-	'Scene' romanNumber=RomanNumber ':' name = ID
+	'Scene' romanNumber=RomanNumber ': ' name = ID
 	actorScene=ActorScene
 	(instructions+=Instructions)*
 ;
